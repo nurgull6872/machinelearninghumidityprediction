@@ -161,7 +161,7 @@ Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak gü�
 **Decision Tree Regressor**, yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır; fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir, veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için güvenilir bir seçenek değildir.
 
 
-### ✔ Random Forest neden bu projede en iyisi?
+### Random Forest neden bu projede en iyisi?
 
 - Çoklu ağaç yapısı sayesinde **kararsızlığı azaltır**  
 - **Gürültülü veriye dayanıklıdır**  
@@ -186,7 +186,7 @@ model = Pipeline([
 model.fit(X_train, y_train)
 ```
 
-### ✔ Neden Pipeline?
+### Neden Pipeline?
 
 - Eksik değerler otomatik doldurulur  
 - Tüm aşamalar **tek adımda** uygulanır  
