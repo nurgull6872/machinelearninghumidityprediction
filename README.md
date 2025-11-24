@@ -1,127 +1,179 @@
-⭐  Weather Humidity Prediction 
+# ⭐ Weather Humidity Prediction (Nem Tahmini – Makine Öğrenmesi)
 
-**1. Projenin Amacı**
+Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hava durumu verilerini** kullanarak **günlük nem oranını (humidity)** tahmin eden bir makine öğrenimi modelini içerir.
 
-50+ yıllık hava durumu verisini işlemek
+##  Kurulum (Installation)
 
-Nem tahmini için anlamlı özellikler çıkarma
+###  1. Depoyu Klonlayın
 
-Farklı regresyon modellerini karşılaştırma
+```bash
+git clone https://github.com/nurgull6872/machinelearninghumidityprediction.git
+cd machinelearninghumidityprediction
+```
+###  2. Gerekli Kütüphaneleri Yükleyin
 
-En iyi sonucu veren modeli seçme
+```bash
+pip install -r requirements.txt
+```
 
-Regression için yazılan kodun içeriğini inceleme
+Eğer `requirements.txt` yoksa aşağıdaki paketleri yüklemek yeterlidir:
 
-Tahmin yapabilen bir makine öğrenimi pipeline’ı oluşturma
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn joblib
+```
 
-**2. Kullanılan Veri Seti**
+### 3. Veri Setini Kontrol Edin
 
-***Veri seti:***
+CSV dosyası aşağıdaki konumda olmalıdır:
 
-guwahati_weather_1972_2025.csv
+```
+data/guwahati_weather_1972_2025.csv
+```
+
+### 4. Notebook veya Kod Dosyasını Çalıştırın
+
+####  Jupyter Notebook
+
+```bash
+jupyter notebook
+```
+Açılan arayüzden:
+
+```
+code.ipynb
+```
+dosyasını çalıştırabilirsiniz.
+
+### Not: Model Dosyası Repoda Yok
+
+GitHub 100 MB sınırı nedeniyle:
+
+```
+humidity_model.pkl
+```
+
+dosyası depoya yüklenmemiştir.  
+Modeli yeniden eğitmek için notebook içindeki eğitim hücresini çalıştırmanız yeterlidir.
 
 
-Veri setinde toplam ~19.000 satır / 30+ kolon bulunmaktadır.
 
-İlk satırlar örnek olarak:
+
+*Proje amacı:*
+- 50+ yıllık hava verisini işlemek  
+- Nem ile ilişkili en anlamlı meteorolojik özellikleri çıkarmak  
+- Farklı regresyon algoritmalarını karşılaştırmak  
+- En iyi modeli seçmek → **Random Forest**  
+- Pipeline şeklinde çalışan bir tahmin sistemi kurmak
+
+
+##  1. Kullanılan Veri Seti
+
+**Dosya:** `guwahati_weather_1972_2025.csv`  
+**Satır:** ~19.000  
+**Kolon:** 30+
 
 | name     | datetime   | temp | tempmax | tempmin | dew  | humidity | windspeed | visibility | solarradiation |
 | -------- | ---------- | ---- | ------- | ------- | ---- | -------- | --------- | ---------- | -------------- |
 | guwahati | 1973-01-01 | 16.6 | 23.1    | 11.1    | 10.2 | 69.7     | 2.9       | 12.3       | NaN            |
 | guwahati | 1973-01-02 | 16.2 | 22.1    | 10.1    | 12.0 | 78.7     | 3.1       | 13.5       | NaN            |
 
+##  2. Veri Temizleme ve Dönüştürme İşlemleri
 
+###  Tarih Formatı Dönüştürüldü (Year–Month–Day):
 
-**3. Veri Temizleme & Dönüştürme İşlemleri**
-
-Model öncesi veri üzerinde yapılan işlemler:
-
-* Tarih formatının dönüştürülmesi *
+```python
 df["datetime"] = pd.to_datetime(df["datetime"], errors="coerce")
 df["year"] = df["datetime"].dt.year
 df["month"] = df["datetime"].dt.month
 df["day"] = df["datetime"].dt.day
+```
+Makine öğrenmesi tarih verisini gün, ay ve yıl olmak üzere bilgileri ayrı özellik olarak çıkarır.Tarih ile çalışmaz tarih nesnesine çevirir.
+Yukarıdaki kod satırları da bunu sağlar.
 
-* Eksik değerlerin tespiti *
+###  Eksik Değer Analizi
 
+```python
 missing_table = df.isnull().sum().to_frame("Eksik Değer Sayısı")
+```
+Yukarıdaki kod satırı isnull() dan true dönen değerleri sum ile sütun bazlı hesaplar ve "eksik değer sayısı" isimli tabloya çevirir.
 
-* Hedef değişkeni için temizleme *
+###  Hedef Değişkende Eksik Olan Satırlar Silindi
 
-Nem değeri olmayan satırlar silindi:
-
+```python
 df = df.dropna(subset=["humidity"]).copy()
+```
+Dropna kullanılarak target hedef değişkende bulunan eksik değerleri siler eğer silinmezse makine öğrenmesi yani eğitilmesi kısmında sorunlar olabilir.
 
-**4. Hedef Değişken (Target) ve Özellikler (Features)**
+## 3. Hedef Değişken ve Özellikler
 
-Target (Tahmin edilen):
+### **Target:**  
+`humidity`
 
-***humidity***
+### **Features:**
 
-
-Kullanılan Özellikler:
-
+```python
 features = [
     "temp","tempmax","tempmin","dew",
     "windspeed","visibility","precip",
     "solarradiation","uvindex",
     "year","month","day"
 ]
+```
 
+Bu değişkenler nemle anlamlı ilişki taşıdığı için seçildi.
 
-Bu değişkenler nem ile anlamlı ilişkiye sahip olduğu için seçildi.
+## 4. Korelasyon Analizi
 
-**5. Kolonlar Arasındaki İlişkiler (Korelasyon Analizi)**
-
-Korelasyon ısı haritası:
-
+```python
 sns.heatmap(df[features + ["humidity"]].corr(), cmap="coolwarm")
+```
+Bu kod satırı ile yalnızca features ve target değişken kullanılarak bir dataframe oluşturuldu ve korelasyon matrisi oluşturulup ısı haritası oluşturuldu.
 
+**Çıkan Sonuçlar:**
 
-Isı haritası ile:
-
-dew (çiy noktası) → nem ile en güçlü pozitif ilişki
-
-tempmax & tempmin → nem ile ters korelasyon
-
-windspeed → düşük ilişki
-
-Gözlemlendi.
-
+- `dew` → nem ile en güçlü pozitif ilişki  
+- `tempmax`, `tempmin` → ters korelasyon  
+- `windspeed` → düşük ilişki
 Modelin ısı haritası aşağıda göründüğü gibidir.
+kırmızıya yakın renkler **pozitif** maviye yakın renkler **negatif** korelasyonu temsil etmektedir.
+
 ![ısıharitasi](image-2.png)
 
-**6. Model Seçimi: Neden Random Forest?**
+## 5. Model Seçimi: Neden Random Forest?
 
+Nem tahmini için test edilen regresyon modelleri:
 
+| Model                  | Durum       | Açıklama |
+|-----------------------|-------------|----------|
+| Linear Regression     | ❌ Zayıf     | Nem ilişkisi doğrusal değil |
+| Polynomial Regression | ❌ Aşırı öğrenme | 12+ özellikte patlıyor |
+| SVR                   | ❌ Çok yavaş | 19k satır için uygun değil |
+| Decision Tree         | ❌ Kararsız | Tek ağaç yüksek varyanslı |
+| Random Forest         | ✅ En uygun | Yüksek doğruluk + düşük hata |
 
-Bu proje kapsamında nem tahmini yapmak için çeşitli regresyon algoritmaları karşılaştırmalı olarak değerlendirilmiştir. Her bir algoritmanın veri setinin yapısına, değişkenlerin ilişkilerine ve veri miktarına nasıl tepki verdiği incelenmiş; hem teorik hem de pratik performans açısından artıları ve eksileri analiz edilmiştir.
 
 Öncelikle **Linear Regression** ele alındığında, bu modelin temel varsayımı bağımsız değişkenlerle hedef değişken arasında doğrusal bir ilişki bulunmasıdır. Ancak nem, sıcaklık, çiy noktası, rüzgar hızı gibi meteorolojik değişkenler çoğunlukla karmaşık ve doğrusal olmayan ilişkiler gösterdiğinden Linear Regression bu veri üzerinde anlamlı bir performans sergileyememiştir. Model, veri setinin gerçek doğasını yakalamakta yetersiz kalmış, düşük R² skorları ve yüksek hata değerleri üretmiştir.
 
-Polynomial Regression, teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir; modellenen polinom derecesi arttıkça model hem hesaplama açısından ağırlaşır hem de eğitim verisini ezberlemeye başlayan ağır bir overfitting eğilimi gösterir. Özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmektedir. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
+**Polynomial Regression**, teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir; özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmektedir. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
 
-Bir diğer seçenek olan SVR (Support Vector Regression), teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullanılan veri seti yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmektedir. Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
+Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullanılan veri seti yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmektedir. Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
 
-Decision Tree Regressor, yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır; fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir, veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için güvenilir bir seçenek değildir.
+**Decision Tree Regressor**, yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır; fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir, veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için güvenilir bir seçenek değildir.
 
-Tüm bu değerlendirmeler sonucunda, Random Forest Regressor açık ara en başarılı ve en uygun algoritma olarak öne çıkmıştır. Random Forest, birden fazla karar ağacının birlikte çalıştığı bir topluluk (ensemble) yöntemidir. Bu yapı:
 
--tek bir ağacın kararsızlığını ortadan kaldırır,
+### ✔ Random Forest neden bu projede en iyisi?
 
--gürültüye karşı dayanıklılık sağlar,
+- Çoklu ağaç yapısı sayesinde **kararsızlığı azaltır**  
+- **Gürültülü veriye dayanıklıdır**  
+- **Doğrusal olmayan** ilişkileri çok iyi öğrenir  
+- Karmaşık özellik etkileşimlerini yakalayabilir  
+- Büyük veri setlerinde hızlı ve stabildir  
 
--doğrusal olmayan ilişkileri çok iyi öğrenir,
+Bu özellikler nedeniyle Random Forest açık ara en dengeli ve başarılı model olmuştur.
 
--aşırı öğrenmeyi azaltır,
+##  6. Model Eğitimi (Pipeline Yapısı)
 
-karmaşık değişken etkileşimlerini yakalayabilir.
-
-Ayrıca model, veri setinin büyüklüğüne oldukça uygundur; paralel ağaç yapıları sayesinde hem hızlı hem de istikrarlı sonuçlar üretir. Random Forest’ın doğrudan özellik önem değerlerini sunabilmesi, modelin hangi değişkenlerden daha çok etkilendiğini anlamayı kolaylaştırmış ve yorumlanabilirlik açısından da ek bir avantaj sağlamıştır.
-
-Sonuç olarak, yapılan tüm modelleme ve değerlendirme çalışmalarında Random Forest, hem yüksek doğruluk oranı hem de düşük hata metrikleriyle en iyi performansı gösteren yöntem olmuştur. Veri setinin yapısı, değişkenlerin ilişkileri ve problem türü göz önüne alındığında, nem tahmini için en mantıklı, en dengeli ve en güvenilir seçenek Random Forest olarak belirlenmiştir
-
-**7. Model Eğitimi**
+```python
 model = Pipeline([
     ("imputer", SimpleImputer(strategy="mean")),
     ("rf", RandomForestRegressor(
@@ -132,65 +184,55 @@ model = Pipeline([
 ])
 
 model.fit(X_train, y_train)
+```
 
-***Neden Pipeline?***
+### ✔ Neden Pipeline?
 
-Eksik değerler otomatik doldurulur
+- Eksik değerler otomatik doldurulur  
+- Tüm aşamalar **tek adımda** uygulanır  
+- Eğitim ve tahmin sürecinde tutarlılık sağlar  
+- Kod daha temiz ve profesyonel hale gelir
+- 
+## 7. Model Performansı
 
-Model tek adımda eğitilir
+- **MAE:** ≈ 4  
+- **R²:** 0.8+
 
-Kod daha temizdir
+### MAE  
+Nem 0–100 aralığında olduğu için MAE ≈ 4 oldukça iyi bir sonuçtur.
 
-**8. Model Performansı**
-MAE: 4.x
-R²: 0.8+ 
+### R²  
+0.8 üzeri → model veri varyansının çoğunu açıklayabiliyor.
 
-
-*** MAE (Mean Absolute Error)***
-Modelin ortalama hata miktarıdır.
-Nem oranı 0–100 arası olduğundan MAE ≈ 4 oldukça iyi bir performanstır.
-
-***R² Score***
-Model başarısını ölçer.
-0.8 üzeri değer → model veriyi iyi açıklıyor demektir.
-
-
-** 8.Gerçek vs Tahmin Tablosu **
+## 8. Gerçek vs Tahmin Görselleştirmesi
 
 Model performansı görsel olarak:
+
 ![gercekvstahmin](image.png)
 
 
-**9. Özellik Önem Analizi**
+## 🌟 9. Özellik Önem Analizi
 
-Random Forest, hangi değişkenin ne kadar etkili olduğunu gösterir.
-
+```python
 importance_table = pd.DataFrame({
     "Özellik": features,
     "Önem": rf.feature_importances_
 })
+```
 
+**En önemli değişkenler:**
 
-En önemli özellikler:
-
-dew (çiy noktası) – en güçlü belirleyici
-
-tempmin / tempmax
-
-solarradiation
-
-visibility
-
-windspeed
-
-Bu sonuçlar meteorolojik olarak da tamamen mantıklıdır.
+- dew (çiy noktası)  
+- tempmin / tempmax  
+- solarradiation  
+- visibility  
+- windspeed
 
 ![enonemliozellik](image-1.png)
 
-**10. Örnek Tahmin**
+##  10. Örnek Tahmin
 
-Örnek bir günün verisi:
-
+```python
 sample = pd.DataFrame({
     "temp": 25,
     "tempmax": 40,
@@ -205,32 +247,24 @@ sample = pd.DataFrame({
     "month": 7,
     "day": 12
 })
+```
+
+**Tahmin edilen nem:** **73.4 %**
 
 
-Tahmin:
+##  11. Modeli Kaydetme
 
- Tahmin edilen nem: 73.4%
-
-
-**11. Model Kaydetme**
+```python
 joblib.dump(model, "humidity_model.pkl")
+```
 
 
-Sonraki projelerde doğrudan kullanılabilir.
+## 🧾 12. Sonuç
 
+- 50 yıllık hava durumu verisi işlendi  
+- Nem tahmini için anlamlı özellikler çıkarıldı  
+- Farklı modeller karşılaştırıldı  
+- Random Forest en yüksek başarıyı gösterdi  
+- Ortalama ±4 hata ile güçlü bir tahmin performansı elde edildi  
 
-**12. Sonuç (Final Model Değerlendirmesi)**
-
-Bu çalışmada:
-
-50 yıllık hava durumu verisi işlendi,
-
-Nem tahmini için anlamlı özellikler belirlendi,
-
-Farklı regresyon yöntemleri analiz edildi,
-
-Random Forest en iyi sonuçları verdi,
-
-Model ortalama ±4 puan hata ile başarılı tahmin yapabiliyor.
-
-Bu model, gelecekte hava durumu tahmini, bölgesel analizler veya iklim çalışmaları için genişletilebilir bir temel sunmaktadır.
+Bu model, gelecekte hava tahmini, bölgesel iklim araştırmaları, kuraklık analizi gibi çalışmalarda kolayca genişletilebilir bir temel sunmaktadır.
