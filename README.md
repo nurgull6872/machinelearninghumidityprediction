@@ -211,7 +211,7 @@ Model performansı görsel olarak:
 ![gercekvstahmin](image.png)
 
 
-## 🌟 9. Özellik Önem Analizi
+## 9. Özellik Önem Analizi
 
 ```python
 importance_table = pd.DataFrame({
@@ -259,7 +259,7 @@ joblib.dump(model, "humidity_model.pkl")
 ```
 
 
-## 🧾 12. Sonuç
+## 12. Sonuç
 
 - 50 yıllık hava durumu verisi işlendi  
 - Nem tahmini için anlamlı özellikler çıkarıldı  
