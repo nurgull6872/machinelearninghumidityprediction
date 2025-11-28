@@ -72,9 +72,9 @@ Bu kod satırı ile yalnızca features ve target değişken kullanılarak bir da
 
 **Çıkan Sonuçlar:**
 
-- `dew` → nem ile en güçlü pozitif ilişki  
-- `tempmax`, `tempmin` → ters korelasyon  
-- `windspeed` → düşük ilişki
+- dew → nem ile en güçlü pozitif ilişki  
+- tempmax, tempmin → ters korelasyon  
+- windspeed → düşük ilişki
 Modelin ısı haritası aşağıda göründüğü gibidir.
 kırmızıya yakın renkler **pozitif** maviye yakın renkler **negatif** korelasyonu temsil etmektedir.
 
