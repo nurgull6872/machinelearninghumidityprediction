@@ -56,7 +56,7 @@ Modeli yeniden eğitmek için notebook içindeki eğitim hücresini çalıştır
 - 50+ yıllık hava verisini işlemek  
 - Nem ile ilişkili en anlamlı meteorolojik özellikleri çıkarmak  
 - Farklı regresyon algoritmalarını karşılaştırmak  
-- En iyi modeli seçmek → **Random Forest**  
+- En iyi modeli seçmek  **Random Forest**  
 - Pipeline şeklinde çalışan bir tahmin sistemi kurmak
 
 
