@@ -13,12 +13,6 @@ cd machinelearninghumidityprediction
 ###  2. Gerekli Kütüphaneleri Yükleyin
 
 ```bash
-pip install -r requirements.txt
-```
-
-Eğer `requirements.txt` yoksa aşağıdaki paketleri yüklemek yeterlidir:
-
-```bash
 pip install pandas numpy matplotlib seaborn scikit-learn joblib
 ```
 
