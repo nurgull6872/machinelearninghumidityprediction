@@ -1,4 +1,4 @@
-# ⭐ Weather Humidity Prediction (Nem Tahmini – Makine Öğrenmesi)
+#  Weather Humidity Prediction (Nem Tahmini – Makine Öğrenmesi)
 
 Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hava durumu verilerini** kullanarak **günlük nem oranını (humidity)** tahmin eden bir makine öğrenimi modelini içerir.
 
