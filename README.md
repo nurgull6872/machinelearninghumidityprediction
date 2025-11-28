@@ -150,15 +150,15 @@ Nem tahmini için test edilen regresyon modelleri:
 
 **Polynomial Regression**, teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir; özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmektedir. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
 
-Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullanılan veri seti yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmektedir. Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
+Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullanılan veri setim yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmektedir. Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
 
-**Decision Tree Regressor**, yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır; fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir, veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için güvenilir bir seçenek değildir.
+**Decision Tree Regressor**, yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır; fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir, veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için tıpkı benim kullandığım veri seti gibi veri setleri için güvenilir bir seçenek değildir.
 
 
 ### Random Forest neden bu projede en iyisi?
 
 - Çoklu ağaç yapısı sayesinde **kararsızlığı azaltır**  
-- **Gürültülü veriye dayanıklıdır**  
+- **Gürültülü veriye yani eksik ve düzgün olmayan verilere dayanıklıdır**  
 - **Doğrusal olmayan** ilişkileri çok iyi öğrenir  
 - Karmaşık özellik etkileşimlerini yakalayabilir  
 - Büyük veri setlerinde hızlı ve stabildir  
