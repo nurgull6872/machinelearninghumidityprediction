@@ -2,7 +2,7 @@
 
 Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hava durumu verilerini** kullanarak **günlük nem oranını (humidity)** tahmin eden bir makine öğrenimi modelini içerir.
 
-##  Kurulum (Installation)
+##  Kurulum 
 
 ###  1. Depoyu Klonlayın
 
