@@ -145,11 +145,11 @@ Nem tahmini için test edilen regresyon modelleri:
 
 | Model                  | Durum       | Açıklama |
 |-----------------------|-------------|----------|
-| Linear Regression     | ❌ Zayıf     | Nem ilişkisi doğrusal değil |
-| Polynomial Regression | ❌ Aşırı öğrenme | 12+ özellikte patlıyor |
-| SVR                   | ❌ Çok yavaş | 19k satır için uygun değil |
-| Decision Tree         | ❌ Kararsız | Tek ağaç yüksek varyanslı |
-| Random Forest         | ✅ En uygun | Yüksek doğruluk + düşük hata |
+| Linear Regression     |  Zayıf     | Nem ilişkisi doğrusal değil |
+| Polynomial Regression |  Aşırı öğrenme | 12+ özellikte patlıyor |
+| SVR                   |  Çok yavaş | 19k satır için uygun değil |
+| Decision Tree         |  Kararsız | Tek ağaç yüksek varyanslı |
+| Random Forest         |  En uygun | Yüksek doğruluk + düşük hata |
 
 
 Öncelikle **Linear Regression** ele alındığında, bu modelin temel varsayımı bağımsız değişkenlerle hedef değişken arasında doğrusal bir ilişki bulunmasıdır. Ancak nem, sıcaklık, çiy noktası, rüzgar hızı gibi meteorolojik değişkenler çoğunlukla karmaşık ve doğrusal olmayan ilişkiler gösterdiğinden Linear Regression bu veri üzerinde anlamlı bir performans sergileyememiştir. Model, veri setinin gerçek doğasını yakalamakta yetersiz kalmış, düşük R² skorları ve yüksek hata değerleri üretmiştir.
@@ -248,7 +248,7 @@ sample = pd.DataFrame({
     "day": 12
 })
 ```
-
+Modelin bir deger tahmin edebilmesi için default olarak bazı değerler verildi ve işlem yaptırıldı. Bu değerler değişkenlik gösterdiğinde modelin tahmin değeri değişecektir.
 **Tahmin edilen nem:** **73.4 %**
 
 
@@ -257,7 +257,7 @@ sample = pd.DataFrame({
 ```python
 joblib.dump(model, "humidity_model.pkl")
 ```
-
+Modeli kaydetmemiz durumunda sonraki kullanımlarda kolaylık sağlanacaktır. Ama bu kaydedilmiş model github 100 mb sınırından dolayı yüklenemedi. Proje çalıştırıldığında yüklenecektir.
 
 ## 12. Sonuç
 
@@ -265,6 +265,6 @@ joblib.dump(model, "humidity_model.pkl")
 - Nem tahmini için anlamlı özellikler çıkarıldı  
 - Farklı modeller karşılaştırıldı  
 - Random Forest en yüksek başarıyı gösterdi  
-- Ortalama ±4 hata ile güçlü bir tahmin performansı elde edildi  
+- Ortalama +4 -4 hata ile güçlü bir tahmin performansı elde edildi  
 
 Bu model, gelecekte hava tahmini, bölgesel iklim araştırmaları, kuraklık analizi gibi çalışmalarda kolayca genişletilebilir bir temel sunmaktadır.
