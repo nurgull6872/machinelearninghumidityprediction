@@ -22,63 +22,58 @@ Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hav
 | guwahati | 1973-01-01 | 16.6 | 23.1    | 11.1    | 10.2 | 69.7     | 2.9       | 12.3       | NaN            |
 | guwahati | 1973-01-02 | 16.2 | 22.1    | 10.1    | 12.0 | 78.7     | 3.1       | 13.5       | NaN            |
 
-##  2. Veri Temizleme ve Dönüştürme İşlemleri
+# KOD ANALİZİ
+### veri yükleme ve okuma
+![veriyukleme](images/image-3.jpg)
 
-###  Tarih Formatı Dönüştürülmesi:
+Bu adımda önce çalıştığım klasörü os.getcwd() ile aldım, sonra os.path.join() kullanarak veri dosyasının tam yolunu birleştirdim. Böylece Python CSV dosyasının nerede olduğunu net şekilde biliyor oldu. Ardından pd.read_csv() komutuyla dosyayı içeri aktardım ve DataFrame’e dönüştürdüm. Verinin tablo şeklinde gelmesi sayesinde hem sütunlara hem de değerlere rahatça erişebildim. Son olarak da df.head(10) ile ilk 10 satıra baktım bu tamamen veri doğru yüklenmiş mi diye kontrol etmek için yaptığım bir adım oldu.
+
+### tarih formatı dönüştürülmesi
+![tarihformatıdön](images/image-5.jpg)
+
+Verideki tarih sütunu yazı şeklindeydi yani bu da demek oluyor ki model için uygun değildi bu yüzden pd.to_datetime() ile bunu gerçek bir tarih formatına çevirdim ayrıca makine öğrenmesi tarih nesnesi ile çalışır. Sonra bu sütundan ayrı ayrı yıl, ay ve gün bilgilerini çıkartıp yeni sütunlar oluşturdum. Bu adımı modelin daha güçlü ve düzgün öğrenebilmesi için yaptım.
+
+### eksik değer tablosu
+![tarihformatıdön](images/image-6.jpg)
+
+df.isnull().sum() komutu ile hangi sütunda kaç tane eksik değer var diye kontrol yaptım ve bu eksik değerleri toplayıp bir frame yani bu kod satırında yaptığım tabloya dönüştürdüm. Bu sayede çıktıda eksik değerleri görebildim.
+
+### target Değişkeni ve features Belirleme
+![tarihformatıdön](images/image-7.jpg)
+
+Tahmin edeceğim değişken humidity olduğu için onu target isimli bir değişken sabite atadım ve bu sütunda eksik olan satırları dropna fonksyonundan yararlanarak sildim. Daha sonra modele girdi olarak vereceğim sütunları bir features listesi adından bir liste halinde topladım (sıcaklık, rüzgâr hızı, maksimum sıcaklık , yıl, ay, gün vb.). Bunlara özellik deniyor ve model bu bilgileri kullanarak nemi tahmin edecek ve bu özellikler değişirse her birinin değiştikleri orana uygun olarak yeni bir değer tahmin edecek bu nedenle bu kod satırını yazdım. 
+
+### test-train ayrıştırması
+![tarihformatıdön](images/image-8.jpg)
+
+Bu kod satırında veri setini test ve train olmak üzere iki parçaya böldüm. X değişkeni modele girdi olarak vereceğim tüm bağımsız değişkenleri yani features listesinde belirttiğim değişkenleri içeriyor aynı zamanda y ise modelin tahmin etmeye çalıştığı hedef değişkendir yani humidity değeridir çoğu durumda odaklandığımız değişkendir bağımlı değişken.
+Bu ayırmayı yapmamın sebebiise her makine öğrenmesi modelinin aynı mantıkla çalışıyor olmasıdır.Makine öğrenmesi modeli x içindeki değerleri kullanarak y yi tahmin eder,öğrenir.Eğer x ve y olarak ayrılmazsa model neyin girdi neyin çıktı olduğunu öğrenemez.
+
+### korelasyon ısı haritası
+![tarihformatıdön](images/image-9.jpg)
 
 
-df["datetime"] = pd.to_datetime(df["datetime"], errors="coerce")
-df["year"] = df["datetime"].dt.year
-df["month"] = df["datetime"].dt.month
-df["day"] = df["datetime"].dt.day
+Bu adımda Seaborn kullanarak özellikler ile nem arasındaki ilişkiyi görselleştirdim bu grafik sonucunda özellikler ve target değişken arasında nasıl bir uyum veya ilişki var görselleştirebiliyoruz. Örneğin sıcaklık veya maksimum sıcaklık nemle güçlü bir ilişkiye sahipse bunu ısı haritasında kırmızıya yakın bir renk ile görebilyorum aynı şekilde de zayıfsa mavi tonlarındaki renkler ile görebiliyorum. Bu adımın var olmasının sebebi model kurmadan önce veriyi tanımak ve hangi özelliklerin gerçekten faydalı olduğunu anlamaktır sonuç çıktısında bunu hemen kolay bir şekilde analiz edebiliyorum. 
 
-Makine öğrenmesi tarih verisini gün, ay ve yıl olmak üzere bilgileri ayrı özellik olarak çıkarır.Tarih ile çalışmaz tarih nesnesine çevirir.
-Yukarıdaki kod satırları da bunu sağlar.
-
-###  Eksik Değer Analizi
-
-
-missing_table = df.isnull().sum().to_frame("Eksik Değer Sayısı")
-
-Yukarıdaki kod satırı isnull() dan true dönen değerleri sum ile sütun bazlı hesaplar ve "eksik değer sayısı" isimli tabloya çevirir.
-
-###  Hedef Değişkende Eksik Olan Satırlar Silindi
-
-df = df.dropna(subset=["humidity"]).copy()
-
-Dropna kullanılarak target hedef değişkende bulunan eksik değerleri siler eğer silinmezse makine öğrenmesi yani eğitilmesi kısmında sorunlar olabilir.Copy ile kopyaladım ki doğrudan veriyi silip kalıcı bir durum olmasın.
-
-## 3. Hedef Değişken ve Özellikler
-
-### **Target:**  
-humidity
-
-### **Features:**
-
-features = [
-    "temp","tempmax","tempmin","dew",
-    "windspeed","visibility","precip",
-    "solarradiation","uvindex",
-    "year","month","day"
-]
-
-Bu değişkenler nemle anlamlı ilişki taşıdığı için seçildi.
-
-## 4. Korelasyon Analizi
-
-sns.heatmap(df[features + ["humidity"]].corr(), cmap="coolwarm")
-
-Bu kod satırı ile yalnızca features ve target değişken kullanılarak bir dataframe oluşturuldu ve korelasyon matrisi oluşturulup ısı haritası oluşturuldu.Cmap ile kırmızı ve maviye göre güçlü zayıf ilişkinin belirlenmesini ayarladım 
-
-**Çıkan Sonuçlar:**
-
-- dew → nem ile en güçlü pozitif ilişki  
-- tempmax, tempmin → ters korelasyon  
-- windspeed → düşük ilişki
-Modelin ısı haritası aşağıda göründüğü gibidir.
-kırmızıya yakın renkler **pozitif** maviye yakın renkler **negatif** korelasyonu temsil etmektedir.
+MODELİMİN ISI HARİTASI
 
 ![ısıharitasi](image-2.png)
+
+### random forest modeli kurulumu
+![tarihformatıdön](images/image-10.jpg)
+
+Bu adımda bir pipeline oluşturdum e bu pipeline yapısı aynı zamanda bana farklı görevlerini yerine getirebilmemi sağladı. İlk olarak SimpleImputer ile eksik değerleri genel değerlerin ortalaması ile doldurdum çünkü modeller eksik veriyle çalışamaz çalışsa bile hatalı sonuç üretir. Ardından RandomForestRegressor modelini  pipelinea rf adıyla ekledim  yani aslında Random Forestı doğrudan pipeline zincirinin içine bağlamış oldum. Böylece model çalışırken önce eksik değerler otomatik olarak dolduruluyor, ardından çıkış olarak Random Forest modeli çalıştırılarak tahmin işlemi yapılıyor. Bu kod satırları ile pipelne yapısını kullanıp aynı anda hem bir taraftan preprocessing hem de model eklenimini yapmış oldum.
+
+### performans ölçümü
+![tarihformatıdön](images/image-11.jpg)
+
+Bu adımda iki önemli performans belirleyici faktör kullandım. biri mae(Ortalama Mutlak Hata) diğeri ise r^2 (Başarı Skoru) mae modelin ne kadar hata yaptığını sayı olarak gösterir başarı skoru ise 0-1 arasında bir skor üreterek modelin veriyi ne kadar iyi açıklayıp açıklamadığını gösterir. Denediğim diğer regresyon modelleri ile kıyaslamamda da bu performans ölçütlerini kullandım ve çıktılara göre random forest modeline karar verdim.
+
+### 
+![tarihformatıdön](images/image-12.jpg)
+
+Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel olarak incelemek için bir scatter grafiği çizdim. Bu grafikte test setindeki gerçek nem değerlerini yatay eksene, modelin tahmin ettiği nem değerlerini ise dikey eksene yerleştirdim. Böylece her bir nokta aslında “model bu değeri böyle tahmin etmiş” anlamına geliyor. Grafiğe ayrıca kırmızı bir çizgi ekledim; bu çizgi modelin birebir doğru tahmin yaptığı ideal durumu temsil ediyor. Noktaların bu çizgiye yakın olması modelimin gerçeğe ne kadar yaklaştığını hızlı bir şekilde görmemi sağlıyor. Sonrasında modelin hangi özelliklere daha çok önem verdiğini öğrenmek için Random Forest’ın feature_importances_ değerlerini kullandım. Pipeline içindeki Random Forest modelini çıkartıp tüm özelliklerin önem skorlarını bir tabloya dönüştürdüm ve en önemliden en aza doğru sıraladım. Bu tabloyu oluşturmaktaki amacım, modelin nemi tahmin ederken hangi değişkenleri daha etkili bulduğunu anlamaktı. Örneğin model “dew” veya “tempmin” özelliklerine daha fazla önem veriyorsa bu, nem ile bu değişkenler arasında güçlü bir ilişki olduğu anlamına geliyor. Son olarak bu tabloyu bar grafik olarak çizdim çünkü görsel bir grafik sayesinde hangi özelliğin daha önemli olduğunu çok daha net ve anlaşılır bir şekilde görebiliyorum. Bu adımların hepsi benim için önemli çünkü hem modelin ne kadar iyi tahmin yaptığını görüyorum hem de modelin nasıl karar verdiğini, yani “iç mantığını” daha iyi çözmüş oluyorum. Bu sayede hem performansı hem de modelin çalışma şeklini çok daha rahat değerlendirebiliyorum.
+
 
 ## 5. Model Seçimi: Neden Random Forest?
 
@@ -104,36 +99,7 @@ Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak gü�
 
 Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan farklı olarak Random Forest açık ara en dengeli ve başarılı model olmuştur.
 
-##  6. Model Eğitimi (Pipeline Yapısı)
 
-model = Pipeline([
-    ("imputer", SimpleImputer(strategy="mean")),
-    ("rf", RandomForestRegressor(
-        n_estimators=200,
-        max_depth=16,
-        random_state=42
-    ))
-])
-
-model.fit(X_train, y_train)
-
-### Neden Pipeline?
-
-- Eksik değerler otomatik doldurulur  
-- Tüm aşamalar **tek adımda** uygulanır  
-- Eğitim ve tahmin sürecinde tutarlılık sağlar  
-- Kod daha temiz ve profesyonel hale gelir
-- 
-## 7. Model Performansı
-
-- **MAE:** ≈ 4  
-- **R²:** 0.8+
-
-### MAE  
-Nem 0–100 aralığında olduğu için araştırmalarıma göre MAE ≈ 4 oldukça iyi bir sonuçtur.
-
-### R²  
-0.8 üzeri → model veri varyansının çoğunu açıklayabiliyor anlamına geldiğinden bu da bir veri seti çözümlemesi için oldukça iyi bir orandır.
 
 ## 8. Gerçek vs Tahmin Görselleştirmesi
 
