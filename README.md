@@ -55,7 +55,7 @@ Bu ayırmayı yapmamın sebebiise her makine öğrenmesi modelinin aynı mantık
 
 Bu adımda Seaborn kullanarak özellikler ile nem arasındaki ilişkiyi görselleştirdim bu grafik sonucunda özellikler ve target değişken arasında nasıl bir uyum veya ilişki var görselleştirebiliyoruz. Örneğin sıcaklık veya maksimum sıcaklık nemle güçlü bir ilişkiye sahipse bunu ısı haritasında kırmızıya yakın bir renk ile görebilyorum aynı şekilde de zayıfsa mavi tonlarındaki renkler ile görebiliyorum. Bu adımın var olmasının sebebi model kurmadan önce veriyi tanımak ve hangi özelliklerin gerçekten faydalı olduğunu anlamaktır sonuç çıktısında bunu hemen kolay bir şekilde analiz edebiliyorum. 
 
-MODELİMİN ISI HARİTASI
+*MODELİMİN ISI HARİTASI*
 
 ![ısıharitasi](image-2.png)
 
@@ -73,6 +73,26 @@ Bu adımda iki önemli performans belirleyici faktör kullandım. biri mae(Ortal
 ![tarihformatıdön](images/image-12.jpg)
 
 Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel olarak incelemek için bir scatter grafiği çizdim. Bu grafikte test setindeki gerçek nem değerlerini yatay eksene, modelin tahmin ettiği nem değerlerini ise dikey eksene yerleştirdim. Böylece her bir nokta aslında “model bu değeri böyle tahmin etmiş” anlamına geliyor. Grafiğe ayrıca kırmızı bir çizgi ekledim; bu çizgi modelin birebir doğru tahmin yaptığı ideal durumu temsil ediyor. Noktaların bu çizgiye yakın olması modelimin gerçeğe ne kadar yaklaştığını hızlı bir şekilde görmemi sağlıyor. Sonrasında modelin hangi özelliklere daha çok önem verdiğini öğrenmek için Random Forest’ın feature_importances_ değerlerini kullandım. Pipeline içindeki Random Forest modelini çıkartıp tüm özelliklerin önem skorlarını bir tabloya dönüştürdüm ve en önemliden en aza doğru sıraladım. Bu tabloyu oluşturmaktaki amacım, modelin nemi tahmin ederken hangi değişkenleri daha etkili bulduğunu anlamaktı. Örneğin model “dew” veya “tempmin” özelliklerine daha fazla önem veriyorsa bu, nem ile bu değişkenler arasında güçlü bir ilişki olduğu anlamına geliyor. Son olarak bu tabloyu bar grafik olarak çizdim çünkü görsel bir grafik sayesinde hangi özelliğin daha önemli olduğunu çok daha net ve anlaşılır bir şekilde görebiliyorum. Bu adımların hepsi benim için önemli çünkü hem modelin ne kadar iyi tahmin yaptığını görüyorum hem de modelin nasıl karar verdiğini, yani “iç mantığını” daha iyi çözmüş oluyorum. Bu sayede hem performansı hem de modelin çalışma şeklini çok daha rahat değerlendirebiliyorum.
+
+*GERÇEK VS TAHMİN*
+
+![gercekvstahmin](image.png)
+
+
+*ÖZELLİK ÖNEM TABLOSU*
+**En önemli değişkenler:**
+
+- dew 
+- tempmin / tempmax  
+- solarradiation  
+- visibility  
+- windspeed
+
+![enonemliozellik](image-1.png)
+
+
+
+
 
 
 ## 5. Model Seçimi: Neden Random Forest?
@@ -100,32 +120,6 @@ Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak gü�
 Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan farklı olarak Random Forest açık ara en dengeli ve başarılı model olmuştur.
 
 
-
-## 8. Gerçek vs Tahmin Görselleştirmesi
-
-Model performansı görsel olarak:
-
-![gercekvstahmin](image.png)
-
-not: görseller collab jupyter üzerinden oluşturulmuştur.
-
-
-## 9. Özellik Önem Analizi
-
-importance_table = pd.DataFrame({
-    "Özellik": features,
-    "Önem": rf.feature_importances_
-})
-
-**En önemli değişkenler:**
-
-- dew 
-- tempmin / tempmax  
-- solarradiation  
-- visibility  
-- windspeed
-
-![enonemliozellik](image-1.png)
 
 ##  10. Örnek Tahmini 
 sample = pd.DataFrame({
