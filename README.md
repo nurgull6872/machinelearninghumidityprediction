@@ -99,8 +99,16 @@ Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel o
 
 Kullandığım veri setimde regresyon modeli seçmek için farklı modeller denedim ve bu modelelr arasından en iyi seçebilmek için de testler uyguladım bu testler modelin veri ile ne kadar uyuştuğunu ne kadar iyi tahminler yaptığını iyi tahmin olup olmadığını da grafikler çizerek ölçmeye çalıştım kullandığım testyöntemleri ilk olarak mae ve r^2 dir bu ölçümler bir modelin ne kadar hata yapıtğını ve veri ile uyumluluğunu ölçen genelgeçer kuramlardır ve devamında da her bir regresyn modeli için ayrı ayrı tahmin vs gerçek grafikleri çizdirdim bu grafikte olması gereken değerlerve modelin tahmin ettiği değerlerin birbirleri ile uyuşup uyumadığını ölçtüm.
 
+
+
+
 **Linear Regression** 
+                      
+                        
+                        
                         ![gercekvstahmin](regressiontestimages/image-13.jpg)
+
+                        
 
 Linear regresyonu projeme model olarak hangi kod satılarını kullanarak eklediğimi yukarıda görebilirsiniz.Öncelikle yine bir pipeline yapısı oluşturdum bana bu yapı aynı anda iki işi yapabilmemi sağlıyor preprocessing yani veri ön işleme olarak bildiğimiz eksik değerleri ortalama ile dolduruyor daha sonra ise modeli oluşturma aşamasına geçiyor. daha sonrasında da sırasıyla oluşturduğum modelin ismini kullanarak predict fonksiyonunu çağırdımve modelimin tahmin yapmasını sağladım ardından test için gerekli mae ve r^2 ifadelerini linear modeli için hesaplatıp yazdırdım bu değerleri devamında da asıl tablo kısmı olan kısma geçtim ve bir dataframe yapısı oluşturarak verideki gerçek y değerleri ve modelimin tahmin ettiği değeri bir tabloya yerleştirdim ve bu tabloyu ekranda gösterdim
 
@@ -108,7 +116,11 @@ Linear regresyonu projeme model olarak hangi kod satılarını kullanarak ekledi
 
 
 Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldir yukarıda bahsettiğim test içeriklerini uyguladığımda ise aşağıdaki sonuçları aldım 
+
+
+
                         ![gercekvstahmin](regressiontestimages/image-15.jpg)
+
 
 
                         ![gercekvstahmin](regressiontestimages/image-14.jpg)
