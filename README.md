@@ -157,13 +157,13 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 ![svrreg1](regressiontestimages/image-21.jpg)
 
 
-![deckod](regressiontestimages/image-16.jpg)
+![deckod](regressiontestimages/image-22.jpg)
 
 
-![decreg](regressiontestimages/image-16.jpg)
+![decreg](regressiontestimages/image-23.jpg)
 
 
-![decreg1](regressiontestimages/image-16.jpg)
+![decreg1](regressiontestimages/image-24.jpg)
 
 
 
