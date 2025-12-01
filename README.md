@@ -136,6 +136,18 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 **Polynomial Regression**
 
 
+
+
+![polykod](regressiontestimages/image-16.jpg)
+
+
+![polykod](regressiontestimages/image-17.jpg)
+
+
+![polykod](regressiontestimages/image-18.jpg)
+
+
+
 teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir ve özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmüştür. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
 
 Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullandığım veri setim yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmiştir. Bu yöntem pratk olarak hiç uygun olamamıştır.Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
