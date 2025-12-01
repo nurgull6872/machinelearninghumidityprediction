@@ -106,7 +106,7 @@ Kullandığım veri setimde regresyon modeli seçmek için farklı modeller dene
                       
                         
                         
-                        ![gercekvstahmin](regressiontestimages/image-13.jpg)
+![lineatkod](regressiontestimages/image-13.jpg)
 
                         
 
@@ -119,11 +119,11 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 
 
 
-                        ![gercekvstahmin](regressiontestimages/image-15.jpg)
+![linearreg](regressiontestimages/image-15.jpg)
 
 
 
-                        ![gercekvstahmin](regressiontestimages/image-14.jpg)
+![linearreg1](regressiontestimages/image-14.jpg)
 
 ***MAE: 0.94*** bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar oldukça küçük kabıl ediliyor yani bu değe bize modelin gerçek değerlere yakın sonuçlar veridğini gösteriyor.
 
