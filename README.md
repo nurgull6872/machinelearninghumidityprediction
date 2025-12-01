@@ -141,10 +141,31 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 ![polykod](regressiontestimages/image-16.jpg)
 
 
-![polykod](regressiontestimages/image-17.jpg)
+![polyreg](regressiontestimages/image-17.jpg)
 
 
-![polykod](regressiontestimages/image-18.jpg)
+![polyreg1](regressiontestimages/image-18.jpg)
+
+
+
+![svrkod](regressiontestimages/image-19.jpg)
+
+
+![svrreg](regressiontestimages/image-20.jpg)
+
+
+![svrreg1](regressiontestimages/image-21.jpg)
+
+
+![deckod](regressiontestimages/image-16.jpg)
+
+
+![decreg](regressiontestimages/image-16.jpg)
+
+
+![decreg1](regressiontestimages/image-16.jpg)
+
+
 
 
 
