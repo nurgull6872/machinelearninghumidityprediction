@@ -101,8 +101,8 @@ Kullandığım veri setimde regresyon modeli seçmek için farklı modeller dene
 
 **Linear Regression** 
 Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldir yukarıda bahsettiğim test içeriklerini uyguladığımda ise aşağıdaki sonuçları aldım 
-![gercekvstahmin](regressiontestimages/image-15.png)
-![gercekvstahmin](regressiontestimages/image-14.png)
+![gercekvstahmin](regressiontestimages/image-15.jpg)
+![gercekvstahmin](regressiontestimages/image-14.jpg)
 
 *MAE: 0.94* bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar oldukça küçük kabıl ediliyor yani bu değe bize modelin gerçek değerlere yakın sonuçlar veridğini gösteriyor
 *R²: 0.976* bu değer ise varyans değeri olarak da biliniyor ve veri değişiminin açklanabilirliğini gösteriyor bu sonuca bakıldığında anlıyoruz ki bu veri modeli verinin yaklaşık %97 sini açıklayabiliyor yani gerçek değerlerle tahminlerin uyuşmasını bir grafik üzerinde gösteriyor ortadaki kırmızı çizgi net tahmin yani doğru değerleri gösteriyor bu kırmızı doğrusal çizgiye uygunluk, yakınlık ne kadar çoksa veri tahmininin o kadar doğru olacağını biliyoruz bu grafikte de linear regresyon modelinin doğruluğuna bir kez daha emin oldum çoğunlukla kırmızı çizgi etrafında birleşim ile ayrıca aynı eksran görüntülerinde grafik de çizdirdim ve bu grafik gerçek vs tahmin ve bu da doğrusal veriler için özellikle kullanışlı olan bu model için benim açımdan beklenmedik sonuç oldu.
