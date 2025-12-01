@@ -100,25 +100,31 @@ Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel o
 Kullandığım veri setimde regresyon modeli seçmek için farklı modeller denedim ve bu modelelr arasından en iyi seçebilmek için de testler uyguladım bu testler modelin veri ile ne kadar uyuştuğunu ne kadar iyi tahminler yaptığını iyi tahmin olup olmadığını da grafikler çizerek ölçmeye çalıştım kullandığım testyöntemleri ilk olarak mae ve r^2 dir bu ölçümler bir modelin ne kadar hata yapıtğını ve veri ile uyumluluğunu ölçen genelgeçer kuramlardır ve devamında da her bir regresyn modeli için ayrı ayrı tahmin vs gerçek grafikleri çizdirdim bu grafikte olması gereken değerlerve modelin tahmin ettiği değerlerin birbirleri ile uyuşup uyumadığını ölçtüm.
 
 **Linear Regression** 
+                        ![gercekvstahmin](regressiontestimages/image-13.jpg)
+
+Linear regresyonu projeme model olarak hangi kod satılarını kullanarak eklediğimi yukarıda görebilirsiniz.Öncelikle yine bir pipeline yapısı oluşturdum bana bu yapı aynı anda iki işi yapabilmemi sağlıyor preprocessing yani veri ön işleme olarak bildiğimiz eksik değerleri ortalama ile dolduruyor daha sonra ise modeli oluşturma aşamasına geçiyor. daha sonrasında da sırasıyla oluşturduğum modelin ismini kullanarak predict fonksiyonunu çağırdımve modelimin tahmin yapmasını sağladım ardından test için gerekli mae ve r^2 ifadelerini linear modeli için hesaplatıp yazdırdım bu değerleri devamında da asıl tablo kısmı olan kısma geçtim ve bir dataframe yapısı oluşturarak verideki gerçek y değerleri ve modelimin tahmin ettiği değeri bir tabloya yerleştirdim ve bu tabloyu ekranda gösterdim
+
+
+
+
 Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldir yukarıda bahsettiğim test içeriklerini uyguladığımda ise aşağıdaki sonuçları aldım 
-![gercekvstahmin](regressiontestimages/image-15.jpg)
-![gercekvstahmin](regressiontestimages/image-14.jpg)
-
-*MAE: 0.94* bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar oldukça küçük kabıl ediliyor yani bu değe bize modelin gerçek değerlere yakın sonuçlar veridğini gösteriyor
-*R²: 0.976* bu değer ise varyans değeri olarak da biliniyor ve veri değişiminin açklanabilirliğini gösteriyor bu sonuca bakıldığında anlıyoruz ki bu veri modeli verinin yaklaşık %97 sini açıklayabiliyor yani gerçek değerlerle tahminlerin uyuşmasını bir grafik üzerinde gösteriyor ortadaki kırmızı çizgi net tahmin yani doğru değerleri gösteriyor bu kırmızı doğrusal çizgiye uygunluk, yakınlık ne kadar çoksa veri tahmininin o kadar doğru olacağını biliyoruz bu grafikte de linear regresyon modelinin doğruluğuna bir kez daha emin oldum çoğunlukla kırmızı çizgi etrafında birleşim ile ayrıca aynı eksran görüntülerinde grafik de çizdirdim ve bu grafik gerçek vs tahmin ve bu da doğrusal veriler için özellikle kullanışlı olan bu model için benim açımdan beklenmedik sonuç oldu.
+                        ![gercekvstahmin](regressiontestimages/image-15.jpg)
 
 
-Bu değer, modelin verideki değişimin yaklaşık %97’sini açıkladığını gösteriyor. Başka bir deyişle, nemin nasıl arttığını ve azaldığını model neredeyse tamamen doğru şekilde öğrenmiş.
+                        ![gercekvstahmin](regressiontestimages/image-14.jpg)
 
-Grafik sonuçları da bunu destekliyor. Çizdiğim Gerçek – Tahmin grafiğinde, mavi noktaların çoğu kırmızı “mükemmel tahmin” çizgisinin hemen yakınında duruyor. Bu da modelin veriyi çok iyi yakaladığını ve büyük sapmalar olmadığını gösteriyor.
-
-Genel olarak:
-Linear Regression bu veri setinde oldukça başarılı sonuç verdi. Hem hata değerleri çok düşük hem de tahminler grafik üzerinde neredeyse gerçek çizgiyle çakışıyor. Yine de bu model sadece doğrusal ilişkileri öğrenebildiği için, veri daha karmaşık davranışlar içeriyorsa başka regresyon modellerini de denemek gerekiyor.
+***MAE: 0.94*** bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar oldukça küçük kabıl ediliyor yani bu değe bize modelin gerçek değerlere yakın sonuçlar veridğini gösteriyor.
 
 
-Öncelikle ele alındığında, bu modelin temel varsayımı bağımsız değişkenlerle hedef değişken arasında doğrusal bir ilişki bulunmasıdır. Ancak nem, sıcaklık, çiy noktası, rüzgar hızı gibi meteorolojik değişkenler çoğunlukla karmaşık ve doğrusal olmayan ilişkiler gösterdiğinden Linear Regression bu veri üzerinde anlamlı bir performans sergileyememiştir. Model, veri setinin gerçek doğasını yakalamakta yetersiz kalmış, düşük R² skorları ve yüksek hata değerleri üretmiştir.
+***R²: 0.976*** bu değer ise varyans değeri olarak da biliniyor ve veri değişiminin açklanabilirliğini gösteriyor bu sonuca bakıldığında anlıyoruz ki bu veri modeli verinin yaklaşık %97 sini açıklayabiliyor ve bu da bir regresyon modeli için oldukça iyi bir değerdir. 
 
-**Polynomial Regression**, teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir ve özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmüştür. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
+***GERÇEK VS TAHMİN*** bu tablom ise gerçek değerlerle tahminlerin uyuşmasını bir grafik üzerinde gösteriyor ortadaki kırmızı çizgi net tahmin yani doğru değerleri gösteriyor bu kırmızı doğrusal çizgiye uygunluk, yakınlık ne kadar çoksa veri tahmininin o kadar doğru olacağını biliyoruz bu grafikte de linear regresyon modelinin doğruluğunu net bir şekilde mae ve r^2 değerlerine uygun olarak görüyoruz kırmızı çizgi üzerindeki birleşme fazla ve yoğun olduğundan bu regresyon modeli doğru tahmin yapıyor diyebiliriz ve bu durum benim için şaşırtıcı bir durum oldu diyebilriz ama devamında yine de eklenebilecek ekstra karışık verlerle sorun yaratabileceğinden ötürü başka regresyon modellerini de inceledim.
+
+
+**Polynomial Regression**
+
+
+teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir ve özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmüştür. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
 
 Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullandığım veri setim yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmiştir. Bu yöntem pratk olarak hiç uygun olamamıştır.Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
 
