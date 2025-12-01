@@ -11,7 +11,7 @@ Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hav
 - Pipeline şeklinde çalışan bir tahmin sistemi kurmak
 
 
-##  1. Kullanılan Veri Seti
+##  Kullanılan Veri Seti
 
 **Dosya:** guwahati_weather_1972_2025.csv 
 **Satır:** ~19.000  
@@ -95,12 +95,28 @@ Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel o
 
 
 
-## 5. Model Seçimi: Neden Random Forest?
+## MODEL SEÇİMİ
 
-Nem tahmini için test edilen regresyon modelleri:
+Kullandığım veri setimde regresyon modeli seçmek için farklı modeller denedim ve bu modelelr arasından en iyi seçebilmek için de testler uyguladım bu testler modelin veri ile ne kadar uyuştuğunu ne kadar iyi tahminler yaptığını iyi tahmin olup olmadığını da grafikler çizerek ölçmeye çalıştım kullandığım testyöntemleri ilk olarak mae ve r^2 dir bu ölçümler bir modelin ne kadar hata yapıtğını ve veri ile uyumluluğunu ölçen genelgeçer kuramlardır ve devamında da her bir regresyn modeli için ayrı ayrı tahmin vs gerçek grafikleri çizdirdim bu grafikte olması gereken değerlerve modelin tahmin ettiği değerlerin birbirleri ile uyuşup uyumadığını ölçtüm.
+
+**Linear Regression** 
+Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldir yukarıda bahsettiğim test içeriklerini uyguladığımda ise aşağıdaki sonuçları aldım 
+![gercekvstahmin](image-15.png)
+![gercekvstahmin](image-14.png)
+
+*MAE: 0.94* bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar oldukça küçük kabıl ediliyor yani bu değe bize modelin gerçek değerlere yakın sonuçlar veridğini gösteriyor
+*R²: 0.976* bu değer ise varyans değeri olarak da biliniyor ve veri değişiminin açklanabilirliğini gösteriyor bu sonuca bakıldığında anlıyoruz ki bu veri modeli verinin yaklaşık %97 sini açıklayabiliyor yani gerçek değerlerle tahminlerin uyuşmasını bir grafik üzerinde gösteriyor ortadaki kırmızı çizgi net tahmin yani doğru değerleri gösteriyor bu kırmızı doğrusal çizgiye uygunluk, yakınlık ne kadar çoksa veri tahmininin o kadar doğru olacağını biliyoruz bu grafikte de linear regresyon modelinin doğruluğuna bir kez daha emin oldum çoğunlukla kırmızı çizgi etrafında birleşim ile ayrıca aynı eksran görüntülerinde grafik de çizdirdim ve bu grafik gerçek vs tahmin ve bu da doğrusal veriler için özellikle kullanışlı olan bu model için benim açımdan beklenmedik sonuç oldu.
 
 
-Öncelikle **Linear Regression** ele alındığında, bu modelin temel varsayımı bağımsız değişkenlerle hedef değişken arasında doğrusal bir ilişki bulunmasıdır. Ancak nem, sıcaklık, çiy noktası, rüzgar hızı gibi meteorolojik değişkenler çoğunlukla karmaşık ve doğrusal olmayan ilişkiler gösterdiğinden Linear Regression bu veri üzerinde anlamlı bir performans sergileyememiştir. Model, veri setinin gerçek doğasını yakalamakta yetersiz kalmış, düşük R² skorları ve yüksek hata değerleri üretmiştir.
+Bu değer, modelin verideki değişimin yaklaşık %97’sini açıkladığını gösteriyor. Başka bir deyişle, nemin nasıl arttığını ve azaldığını model neredeyse tamamen doğru şekilde öğrenmiş.
+
+Grafik sonuçları da bunu destekliyor. Çizdiğim Gerçek – Tahmin grafiğinde, mavi noktaların çoğu kırmızı “mükemmel tahmin” çizgisinin hemen yakınında duruyor. Bu da modelin veriyi çok iyi yakaladığını ve büyük sapmalar olmadığını gösteriyor.
+
+Genel olarak:
+Linear Regression bu veri setinde oldukça başarılı sonuç verdi. Hem hata değerleri çok düşük hem de tahminler grafik üzerinde neredeyse gerçek çizgiyle çakışıyor. Yine de bu model sadece doğrusal ilişkileri öğrenebildiği için, veri daha karmaşık davranışlar içeriyorsa başka regresyon modellerini de denemek gerekiyor.
+
+
+Öncelikle ele alındığında, bu modelin temel varsayımı bağımsız değişkenlerle hedef değişken arasında doğrusal bir ilişki bulunmasıdır. Ancak nem, sıcaklık, çiy noktası, rüzgar hızı gibi meteorolojik değişkenler çoğunlukla karmaşık ve doğrusal olmayan ilişkiler gösterdiğinden Linear Regression bu veri üzerinde anlamlı bir performans sergileyememiştir. Model, veri setinin gerçek doğasını yakalamakta yetersiz kalmış, düşük R² skorları ve yüksek hata değerleri üretmiştir.
 
 **Polynomial Regression**, teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir ve özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmüştür. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
 
