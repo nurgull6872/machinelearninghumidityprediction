@@ -125,20 +125,22 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 
 ![linearreg1](regressiontestimages/image-14.jpg)
 
-***MAE: 0.94*** bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar oldukça küçük kabıl ediliyor yani bu değe bize modelin gerçek değerlere yakın sonuçlar veridğini gösteriyor.
+***MAE: 0.94*** bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar linear model için beklenilen türde hatalar olabilir çünkü veri setim doğrusal değil ve bu hata oranı da bu  model için beklenebilirdi.
 
 
 ***R²: 0.976*** bu değer ise varyans değeri olarak da biliniyor ve veri değişiminin açklanabilirliğini gösteriyor bu sonuca bakıldığında anlıyoruz ki bu veri modeli verinin yaklaşık %97 sini açıklayabiliyor ve bu da bir regresyon modeli için oldukça iyi bir değerdir. 
 
-***GERÇEK VS TAHMİN*** bu tablom ise gerçek değerlerle tahminlerin uyuşmasını bir grafik üzerinde gösteriyor ortadaki kırmızı çizgi net tahmin yani doğru değerleri gösteriyor bu kırmızı doğrusal çizgiye uygunluk, yakınlık ne kadar çoksa veri tahmininin o kadar doğru olacağını biliyoruz bu grafikte de linear regresyon modelinin doğruluğunu net bir şekilde mae ve r^2 değerlerine uygun olarak görüyoruz kırmızı çizgi üzerindeki birleşme fazla ve yoğun olduğundan bu regresyon modeli doğru tahmin yapıyor diyebiliriz ve bu durum benim için şaşırtıcı bir durum oldu diyebilriz ama devamında yine de eklenebilecek ekstra karışık verlerle sorun yaratabileceğinden ötürü başka regresyon modellerini de inceledim.
+***GERÇEK VS TAHMİN*** bu tablom ise gerçek değerlerle tahminlerin uyuşmasını bir grafik üzerinde gösteriyor ortadaki kırmızı çizgi net tahmin yani doğru değerleri gösteriyor bu kırmızı doğrusal çizgiye uygunluk, yakınlık ne kadar çoksa veri tahmininin o kadar doğru olacağını biliyoruz bu grafikte de linear regresyon modelinin doğruluğunu net bir şekilde mae ve r^2 değerlerine uygun olarak görüyoruz ki kırmızı çizgi üzerindeki birleşme fazla ve yoğun olduğundan bu regresyon modeli doğru tahmin yapıyor diyebiliriz ve bu durum benim için şaşırtıcı bir durum oldu diyebilriz ama devamında yine de eklenebilecek ekstra karışık verlerle sorun yaratabileceğinden ve mae değerinin fazlalığından ötürü başka regresyon modellerini de inceledim.
 
 
 **Polynomial Regression**
-
-
+Bir diğer denediğim model ise çoklu ver için uygun olan polynomial regresyondur.
 
 
 ![polykod](regressiontestimages/image-16.jpg)
+
+yYukadıdaki kod satırları ile bu regresyon modelini projeme dahil edip hesaplama yaptım bu regresyon modelinde lineardan farklı olarak ilk başta bir derece belirlemem gerekti bu derece oluşturulacak fonkaiyonumun derecesidir. Derecesini 2 seçmemin nedeni ise makine öğrenmesinde bu tarz veri setleri için gnellikle 2 seçiliyor olmasıdır hesaplaması hızlı ve aşırı öğrenmesi düşüktür. Devamında ise yine bir pipeline yapısı oluşturdum bu pipeline yapısı ilk eksik verileri ortalama ile doldurdu devamında ise erideki her özelliği 2. dereceden polinom haline getirdi son olarak  da yine bir linear regresyon yapısı kullandım çünkü polinom regresyon işin temelinde bir genişletilmiş bir linear fonksiyondur. Modeli eğitip, test ölçütlerini de hesaplattıktan sonra linear regresyonda yaptığım gibi dataframe yapısı ile bir tablo oluşturup ekranda gösterdim.
+
 
 
 ![polyreg](regressiontestimages/image-17.jpg)
@@ -147,14 +149,33 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 ![polyreg1](regressiontestimages/image-18.jpg)
 
 
+Test sonuçlarına baktığımızda ise şunu görüyoruz ki Bu sonuçlar, polinomsal regresyonda 2. derecenin veriyle neredeyse mükemmel uyum sağladığını gösteriyor: 
+
+***MAE***  0.40 gibi çok küçük bir hata vermiştir ve bu bu veri seti için oldukça düşük bir orandır devamında ise  ***R²*** değerinin 0.995 olması modelin verideki varyansın %99.5’ini açıkladığını gösterir yani veri değerlerine uygunluk açısından oldukça yüksektir. ***Gerçek–tahmin tablosu*** da iki değerin her satırda birbirine çok yakın olduğunu kanıtlıyor. Grafikte noktaların kırmızı çizgiye olan yoğunluğuna baktığımızda gerçek ve tahminlerin ölçülen varyansa uygun olarak oldukça benzer yerlerde olduklarını görüyoruz. Bu modeli seçmememin nedeni ise veri setime eklenebilecek yeni özellik olduğunda bu regresyon modelinin hata verebileceğini düşünmemdir çünkü araştırmalarıma göre genel yapısı gereği 12den fazla özellik olduğunda düşük varyanslar ile karşılaşabiliriz bu da tahmin ve gerçek uyumunu bozabilir.
+
+
+
+**SVR (Support Vector Regression)**
+
+
 
 ![svrkod](regressiontestimages/image-19.jpg)
+
+Denediğim bir diğer regresyon modeli olan svryi denemek için kodumda yaptığım değiişikliklerden bahsedecek olursam linear ve polinom regresyondan farklı olarak kullandığım yöntemlerden ilki svr mesafe tabanlı bir regreyon olduğu için stansardscaler kullanmaktır bu yöntem tüm özellikleri standarlaştırır ve ölçeklendirir eğer bu yapılmazsa özellikler farklı ölçeklerde olur e bu da modeli bozar. Devamında da yine aynı pipeline yapısı içerisinde svr içerisinde kernel ,c ve epsilon değerlerine yer verdim . Kernel eğrisel ilişkileri yakalar C daha sıkı yani verilere daha hassas modeli ayarlar ve  epsilon ise tolerans bölgesini belirler ceza almama bölgesini belirler.Devamında ise yine denediğim diğer regresyondakiler gibi mae ve r^2 hesaplaması yapılır ve ekrana tablo yansıtılır.
+
+
 
 
 ![svrreg](regressiontestimages/image-20.jpg)
 
 
 ![svrreg1](regressiontestimages/image-21.jpg)
+
+
+Svr regresyonun test sonuçlarını ve tabloyu incelediğimde ise polinom regresyona benzer ama daha düşük performans sonuçları aldım yaklaşık 0.5 ***mae*** ve 0.98 ***R^2*** varyans ile gerçekten iyi bir doğruluk yapısı sağlamıştır gerçek vs tahmin tablosuna baktığımda ise yoğunluk olarak doğruluk çizgisine yaklaşmıştır ama bu regresyonda daha fazla nokta mükemmel çizgiden uzaktadır ve bu durumdan ve svr regresyonun genel bir yapısı olan büyük verilerde yüksek maliyet gerektirdiğinden bu da işlemci üzerinde ekstra büyük bir yük , zaman ve maliyet gerektirdiğinden bu yöntem de seçimim olmamıştır.
+
+
+**Decision Tree Regressor**
 
 
 ![deckod](regressiontestimages/image-22.jpg)
@@ -167,13 +188,7 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 
 
 
-
-
-teoride doğrusal olmayan ilişkileri yakalayabilmesi sayesinde bir alternatif olarak değerlendirilmiştir. Fakat bu yaklaşım 12’den fazla özelliğe sahip veri setlerinde hızla karmaşık hale gelir ve özellikle çok boyutlu meteorolojik verilerde küçük gürültülerin bile model tarafından aşırı hassas şekilde öğrenilmesi, gerçek test performansını düşürmüştür. Bu nedenle Polynomial Regression pratik bir çözüm olmaktan uzak kalmıştır.
-
-Bir diğer seçenek olan **SVR (Support Vector Regression)**, teorik olarak güçlü bir regresyon yöntemidir. Kernel yapısı sayesinde doğrusal olmayan ilişkileri başarıyla modelleyebilir. Ancak bu yöntem, özellikle büyük veri kümelerinde yüksek hesaplama maliyetiyle bilinir. Kullandığım veri setim yaklaşık 19.000 satır içerdiğinden, SVR’nin eğitim süresi ciddi derecede uzamakta ve modelin optimize edilmesi hem zaman hem de işlemci gücü açısından verimsiz hale gelmiştir. Bu yöntem pratk olarak hiç uygun olamamıştır.Bu nedenle SVR uygulamada kullanılabilir olmamıştır.
-
-**Decision Tree Regressor**, yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir bu da demek oluyor ki veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için tıpkı benim kullandığım veri seti gibi veri setleri için güvenilir bir seçenek değildir.
+ yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir bu da demek oluyor ki veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için tıpkı benim kullandığım veri seti gibi veri setleri için güvenilir bir seçenek değildir.
 
 
 ### Random Forest neden bu projede en iyisi?
