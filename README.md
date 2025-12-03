@@ -26,28 +26,33 @@ Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hav
 ### veri yükleme ve okuma
 ![veriyukleme](images/image-3.jpg)
 
-Bu adımda önce çalıştığım klasörü os.getcwd() ile aldım, sonra os.path.join() kullanarak veri dosyasının tam yolunu birleştirdim. Böylece Python CSV dosyasının nerede olduğunu net şekilde biliyor oldu. Ardından pd.read_csv() komutuyla dosyayı içeri aktardım ve DataFrame’e dönüştürdüm. Verinin tablo şeklinde gelmesi sayesinde hem sütunlara hem de değerlere rahatça erişebildim. Son olarak da df.head(10) ile ilk 10 satıra baktım bu tamamen veri doğru yüklenmiş mi diye kontrol etmek için yaptığım bir adım oldu.
+Bu adımda önce çalıştığım klasörü os.getcwd() ile aldım sonra os.path.join() kullanarak veri dosyasının tam yolunu birleştirdim. Böylece Python CSV dosyasının yolunu yani nasıl ulaşabileceğini net şekilde biliyor oldu. Ardından pd.read_csv() komutuyla dosyayı içeri aktardım ve dataFrame’e dönüştürdüm dataframe makine öğrenmesinde sıklıkla kullanılan bir yoldur çünkü Verinin tablo şeklinde gelmesi sayesinde hem sütunlara hem de değerlere rahatça erişebilmek veri işleme adımlarını oldukça kolaylaştırır. Son olarak da df.head(10) ile ilk 10 satıra baktım bu tamamen veri doğru yüklenmiş mi veya ekranda yansıyan verilerde hata ,eksiklik var mı diye kontrol etmek için yaptığım bir adım oldu.
+
 
 ### tarih formatı dönüştürülmesi
 ![tarihformatıdön](images/image-5.jpg)
 
-Verideki tarih sütunu yazı şeklindeydi yani bu da demek oluyor ki model için uygun değildi bu yüzden pd.to_datetime() ile bunu gerçek bir tarih formatına çevirdim ayrıca makine öğrenmesi tarih nesnesi ile çalışır. Sonra bu sütundan ayrı ayrı yıl, ay ve gün bilgilerini çıkartıp yeni sütunlar oluşturdum. Bu adımı modelin daha güçlü ve düzgün öğrenebilmesi için yaptım.
+Verideki tarih sütunu yazı şeklindeydi yani bu da demek oluyor ki model için uygun değildi bu yüzden pd.to_datetime() ile bunu gerçek bir tarih formatına çevirdim ayrıca makine öğrenmesi tarih nesnesi ile çalışır bu bilgiler doğrultusunda veri setimde bulunan tarih sütununu ayrı ayrı yıl, ay ve gün bilgilerini çıkartıp yeni sütunlar oluşturdum. Bu adımı modelin daha güçlü ve düzgün öğrenebilmesi için yaptım.
+
 
 ### eksik değer tablosu
 ![tarihformatıdön](images/image-6.jpg)
 
 df.isnull().sum() komutu ile hangi sütunda kaç tane eksik değer var diye kontrol yaptım ve bu eksik değerleri toplayıp bir frame yani bu kod satırında yaptığım tabloya dönüştürdüm. Bu sayede çıktıda eksik değerleri görebildim.
 
+
 ### target Değişkeni ve features Belirleme
 ![tarihformatıdön](images/image-7.jpg)
 
-Tahmin edeceğim değişken humidity olduğu için onu target isimli bir değişken sabite atadım ve bu sütunda eksik olan satırları dropna fonksyonundan yararlanarak sildim. Daha sonra modele girdi olarak vereceğim sütunları bir features listesi adından bir liste halinde topladım (sıcaklık, rüzgâr hızı, maksimum sıcaklık , yıl, ay, gün vb.). Bunlara özellik deniyor ve model bu bilgileri kullanarak nemi tahmin edecek ve bu özellikler değişirse her birinin değiştikleri orana uygun olarak yeni bir değer tahmin edecek bu nedenle bu kod satırını yazdım. 
+Tahmin edeceğim değişken humidity olduğu için onu target isimli bir değişken sabite atadım ve bu sütunda eksik olan satırları dropna fonksyonundan yararlanarak sildim bunu yapmamın sebebei ise eğer tahmin edilecek değerlerde nan yani boş değerler varsa bu makine öğrenmesini zorlaştırır ve tahmin değerlerini hesaplamada hatalar oluşturabilir daha sonrsındaa modele girdi olarak vereceğim sütunları bir features listesi adından bir liste halinde topladım (sıcaklık, rüzgâr hızı, maksimum sıcaklık , yıl, ay, gün vb.). Bunlara özellik deniyor ve model bu bilgileri kullanarak nemi tahmin edecek ve bu özellikler değişirse her birinin değiştikleri orana uygun olarak yeni bir değer tahmin edecek bu nedenle bu kod satırını yazdım. 
+
 
 ### test-train ayrıştırması
 ![tarihformatıdön](images/image-8.jpg)
 
-Bu kod satırında veri setini test ve train olmak üzere iki parçaya böldüm. X değişkeni modele girdi olarak vereceğim tüm bağımsız değişkenleri yani features listesinde belirttiğim değişkenleri içeriyor aynı zamanda y ise modelin tahmin etmeye çalıştığı hedef değişkendir yani humidity değeridir çoğu durumda odaklandığımız değişkendir bağımlı değişken.
-Bu ayırmayı yapmamın sebebiise her makine öğrenmesi modelinin aynı mantıkla çalışıyor olmasıdır.Makine öğrenmesi modeli x içindeki değerleri kullanarak y yi tahmin eder,öğrenir.Eğer x ve y olarak ayrılmazsa model neyin girdi neyin çıktı olduğunu öğrenemez.
+Bu kod satırında veri setini test ve train olmak üzere iki parçaya böldüm. X değişkeni modele girdi olarak vereceğim tüm bağımsız değişkenleri yani features listesinde belirttiğim değişkenleri içeriyor aynı zamanda y ise modelin tahmin etmeye çalıştığı hedef değişkendir yani humidity değeridir çoğu durumda odaklandığımız değişkendir (bağımlı değişken).
+Bu ayırmayı yapmamın sebebi ise her makine öğrenmesi modelinin aynı mantıkla çalışıyor olmasıdır. Makine öğrenmesi modeli x içindeki değerleri kullanarak y yi tahmin eder,öğrenir.Eğer x ve y olarak ayrılmazsa model neyin girdi neyin çıktı olduğunu öğrenemez.
+
 
 ### korelasyon ısı haritası
 ![tarihformatıdön](images/image-9.jpg)
@@ -62,14 +67,14 @@ Bu adımda Seaborn kullanarak özellikler ile nem arasındaki ilişkiyi görsell
 ### random forest modeli kurulumu
 ![tarihformatıdön](images/image-10.jpg)
 
-Bu adımda bir pipeline oluşturdum e bu pipeline yapısı aynı zamanda bana farklı görevlerini yerine getirebilmemi sağladı. İlk olarak SimpleImputer ile eksik değerleri genel değerlerin ortalaması ile doldurdum çünkü modeller eksik veriyle çalışamaz çalışsa bile hatalı sonuç üretir. Ardından RandomForestRegressor modelini  pipelinea rf adıyla ekledim  yani aslında Random Forestı doğrudan pipeline zincirinin içine bağlamış oldum. Böylece model çalışırken önce eksik değerler otomatik olarak dolduruluyor, ardından çıkış olarak Random Forest modeli çalıştırılarak tahmin işlemi yapılıyor. Bu kod satırları ile pipelne yapısını kullanıp aynı anda hem bir taraftan preprocessing hem de model eklenimini yapmış oldum.
+Bu adımda bir pipeline oluşturdum e bu pipeline yapısı sıraya alınmış bir şekilde farklı görevlerini yerine getirebilmemi sağladı. İlk olarak SimpleImputer ile eksik değerleri genel değerlerin ortalaması ile doldurdum çünkü modeller eksik veriyle çalışamaz çalışsa bile hatalı sonuç üretir. Ardından RandomForestRegressor modelini  pipelinea rf adıyla ekledim  yani aslında Random Forestı doğrudan pipeline zincirinin içine bağlamış oldum. Böylece model çalışırken önce eksik değerler otomatik olarak dolduruluyor, ardından çıkış olarak Random Forest modeli çalıştırılarak tahmin işlemi yapılıyor. Bu kod satırları ile pipelne yapısını kullanıp aynı anda hem bir taraftan preprocessing hem de model eklenimini yapmış oldum.
 
 ### performans ölçümü
 ![tarihformatıdön](images/image-11.jpg)
 
 Bu adımda iki önemli performans belirleyici faktör kullandım. biri mae(Ortalama Mutlak Hata) diğeri ise r^2 (Başarı Skoru) mae modelin ne kadar hata yaptığını sayı olarak gösterir başarı skoru ise 0-1 arasında bir skor üreterek modelin veriyi ne kadar iyi açıklayıp açıklamadığını gösterir. Denediğim diğer regresyon modelleri ile kıyaslamamda da bu performans ölçütlerini kullandım ve çıktılara göre random forest modeline karar verdim.
 
-### 
+### görselleştirme 
 ![tarihformatıdön](images/image-12.jpg)
 
 Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel olarak incelemek için bir scatter grafiği çizdim. Bu grafikte test setindeki gerçek nem değerlerini yatay eksene, modelin tahmin ettiği nem değerlerini ise dikey eksene yerleştirdim. Böylece her bir nokta aslında “model bu değeri böyle tahmin etmiş” anlamına geliyor. Grafiğe ayrıca kırmızı bir çizgi ekledim; bu çizgi modelin birebir doğru tahmin yaptığı ideal durumu temsil ediyor. Noktaların bu çizgiye yakın olması modelimin gerçeğe ne kadar yaklaştığını hızlı bir şekilde görmemi sağlıyor. Sonrasında modelin hangi özelliklere daha çok önem verdiğini öğrenmek için Random Forest’ın feature_importances_ değerlerini kullandım. Pipeline içindeki Random Forest modelini çıkartıp tüm özelliklerin önem skorlarını bir tabloya dönüştürdüm ve en önemliden en aza doğru sıraladım. Bu tabloyu oluşturmaktaki amacım, modelin nemi tahmin ederken hangi değişkenleri daha etkili bulduğunu anlamaktı. Örneğin model “dew” veya “tempmin” özelliklerine daha fazla önem veriyorsa bu, nem ile bu değişkenler arasında güçlü bir ilişki olduğu anlamına geliyor. Son olarak bu tabloyu bar grafik olarak çizdim çünkü görsel bir grafik sayesinde hangi özelliğin daha önemli olduğunu çok daha net ve anlaşılır bir şekilde görebiliyorum. Bu adımların hepsi benim için önemli çünkü hem modelin ne kadar iyi tahmin yaptığını görüyorum hem de modelin nasıl karar verdiğini, yani “iç mantığını” daha iyi çözmüş oluyorum. Bu sayede hem performansı hem de modelin çalışma şeklini çok daha rahat değerlendirebiliyorum.
@@ -92,6 +97,16 @@ Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel o
 
 
 
+### modeli Kaydetme
+
+
+    joblib.dump(model, "humidity_model.pkl")
+
+
+Yukarıdaki kod satırı modeli kaydetmemize yarar yani bize bir sonraki aşamalarımızda bu kaydedilmiş modeli kullanmamızı sağlar. Burada da kullandığım gibi joblip.dump metodunu kullanarak modeli istediğimiz ismi vererek kaydedebliriz.
+
+
+Yazdığım kod satırları ve açıklamalarım yukarıdakiler gibidir yazdığım kod genel olarak model bazlı modelin değerlerini ölçmek üzerine ilerlemiştir. Basit bir sample ekleyerek veya kullanıcıdan da bu sample örneğini alarak da modelim basit bir şekilde tahmin işlemini yapabilir.
 
 
 
@@ -203,31 +218,6 @@ Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan fa
 
 
 
-##  10. Örnek Tahmini 
-sample = pd.DataFrame({
-    "temp": 25,
-    "tempmax": 40,
-    "tempmin": 50,
-    "dew": 18.5,
-    "windspeed": 50,
-    "visibility": 8,
-    "precip": 0.1,
-    "solarradiation": 150,
-    "uvindex": 6,
-    "year": 2024,
-    "month": 7,
-    "day": 12
-})
-Modelin bir deger tahmin edebilmesi için default olarak bazı değerler verildi ve işlem yaptırıldı. Bu değerler değişkenlik gösterdiğinde modelin tahmin değeri değişecektir.
-**Tahmin edilen nem:** **73.4 %**
-
-
-##  11. Modeli Kaydetme
-
-
-joblib.dump(model, "humidity_model.pkl")
-
-Modeli kaydetmemiz durumunda sonraki kullanımlarda kolaylık sağlanacaktır. Ama bu kaydedilmiş model github 100 mb sınırından dolayı yüklenemedi. Proje çalıştırıldığında yüklenecektir.
 
 ## 12. Sonuç
 
