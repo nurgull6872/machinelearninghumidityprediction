@@ -11,7 +11,7 @@ Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hav
 - Pipeline şeklinde çalışan bir tahmin sistemi kurmak
 
 
-##  Kullanılan Veri Seti
+##  Kullanılan Veri Setii
 
 **Dosya:** guwahati_weather_1972_2025.csv 
 **Satır:** ~19.000  
