@@ -73,6 +73,7 @@ Bu adımda bir pipeline oluşturdum e bu pipeline yapısı sıraya alınmış bi
 ![tarihformatıdön](images/image-11.jpg)
 
 Bu adımda iki önemli performans belirleyici faktör kullandım. biri mae(Ortalama Mutlak Hata) diğeri ise r^2 (Başarı Skoru) mae modelin ne kadar hata yaptığını sayı olarak gösterir başarı skoru ise 0-1 arasında bir skor üreterek modelin veriyi ne kadar iyi açıklayıp açıklamadığını gösterir. Denediğim diğer regresyon modelleri ile kıyaslamamda da bu performans ölçütlerini kullandım ve çıktılara göre random forest modeline karar verdim.
+  
 
 ### görselleştirme 
 ![tarihformatıdön](images/image-12.jpg)
@@ -206,24 +207,27 @@ Svr regresyonun test sonuçlarını ve tabloyu incelediğimde ise polinom regres
  yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir bu da demek oluyor ki veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için tıpkı benim kullandığım veri seti gibi veri setleri için güvenilir bir seçenek değildir.
 
 
-### Random Forest neden bu projede en iyisi?
+**Random Forest**
 
-- Çoklu ağaç yapısı sayesinde **kararsızlığı azaltır**  
-- **Gürültülü veriye yani eksik ve düzgün olmayan verilere dayanıklıdır**  
-- **Doğrusal olmayan** ilişkileri çok iyi öğrenir  
-- Karmaşık özellik etkileşimlerini yakalayabilir  
-- Büyük veri setlerinde hızlı ve stabildir  
-
-Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan farklı olarak Random Forest açık ara en dengeli ve başarılı model olmuştur.
+Diğer bir adıyla da rassal ormanları olarak bildiğimiz bu model hem veri setim genişletildiğinde teorik olarak hem de test sonuçlarında önemli anlamda iyi sonuçlar veridiği için tercih ettim yukarıda kodun içine nasıl entegre edilidğini anlattım asıl olayı performans sonuçlara bakarsak eğer,
 
 
+  MODEL SONUÇLARI
+MAE: 0.8641747525457808
+R²: 0.9781892749350534
+
+Random forest modeli sonrası performans ölçütlerimin çıktısı yukarıdaki gibi olmuştur veri açıklanabilirliği olarak bildiğim veri uyumu varyans en yüksek random forest modelimde çıkmıştır. 1 yani mükemmel tahmine yakınlığı oldukça fazladır ve genel olarak random forest(rassal ormanları) yapısı gereği çoklu ağaç sistemi kullanması onun kararsızlığını azaltmasından bildiğimiz gürültülü yani eksik ve düzgün olmayan verilere dayanıklılığı ile bildiğimiz için hem düşüncede hem de pratikte en iyi yol olmuştur.
+
+Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan farklı olarak ****Random Forest**** açık ara en dengeli ve başarılı model olmuştur.
 
 
-## 12. Sonuç
+
+
+## SONUÇ
 
 - 50 yıllık hava durumu verisi işlendi  
 - Nem tahmini için anlamlı özellikler çıkarıldı  
 - Farklı modeller karşılaştırıldı  
 - Random Forest en yüksek başarıyı gösterdi  
-- Ortalama +4 -4 hata ile güçlü bir tahmin performansı elde edildi  
+ 
 
