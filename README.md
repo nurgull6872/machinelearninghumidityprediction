@@ -7,8 +7,8 @@ Bu proje, **1972–2025 yılları arasında Guwahati bölgesine ait günlük hav
 - 50+ yıllık hava verisini işlemek  
 - Nem ile ilişkili en anlamlı meteorolojik özellikleri çıkarmak  
 - Farklı regresyon algoritmalarını karşılaştırmak  
-- En iyi modeli seçmek  **Random Forest**  
-- Pipeline şeklinde çalışan bir tahmin sistemi kurmak
+- En iyi modeli seçmek   
+  
 
 
 ##  Kullanılan Veri Setii
@@ -78,7 +78,7 @@ Bu adımda iki önemli performans belirleyici faktör kullandım. biri mae(Ortal
 ### görselleştirme 
 ![tarihformatıdön](images/image-12.jpg)
 
-Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel olarak incelemek için bir scatter grafiği çizdim. Bu grafikte test setindeki gerçek nem değerlerini yatay eksene, modelin tahmin ettiği nem değerlerini ise dikey eksene yerleştirdim. Böylece her bir nokta aslında “model bu değeri böyle tahmin etmiş” anlamına geliyor. Grafiğe ayrıca kırmızı bir çizgi ekledim; bu çizgi modelin birebir doğru tahmin yaptığı ideal durumu temsil ediyor. Noktaların bu çizgiye yakın olması modelimin gerçeğe ne kadar yaklaştığını hızlı bir şekilde görmemi sağlıyor. Sonrasında modelin hangi özelliklere daha çok önem verdiğini öğrenmek için Random Forest’ın feature_importances_ değerlerini kullandım. Pipeline içindeki Random Forest modelini çıkartıp tüm özelliklerin önem skorlarını bir tabloya dönüştürdüm ve en önemliden en aza doğru sıraladım. Bu tabloyu oluşturmaktaki amacım, modelin nemi tahmin ederken hangi değişkenleri daha etkili bulduğunu anlamaktı. Örneğin model “dew” veya “tempmin” özelliklerine daha fazla önem veriyorsa bu, nem ile bu değişkenler arasında güçlü bir ilişki olduğu anlamına geliyor. Son olarak bu tabloyu bar grafik olarak çizdim çünkü görsel bir grafik sayesinde hangi özelliğin daha önemli olduğunu çok daha net ve anlaşılır bir şekilde görebiliyorum. Bu adımların hepsi benim için önemli çünkü hem modelin ne kadar iyi tahmin yaptığını görüyorum hem de modelin nasıl karar verdiğini, yani “iç mantığını” daha iyi çözmüş oluyorum. Bu sayede hem performansı hem de modelin çalışma şeklini çok daha rahat değerlendirebiliyorum.
+Bu bölümde ilk olarak modelimin ne kadar doğru tahmin yaptığını görsel olarak incelemek için bir scatter grafiği çizdimbu benim diğer regresyon modellerinde de kulandığım bir yöntem oldu. Bu grafikte test setindeki gerçek nem değerlerini yatay eksene modelin tahmin ettiği nem değerlerini ise dikey eksene yerleştirdim. Böylece her bir nokta aslında modelin o andaki değeri nasıl tahmin ettiğini bize gösteriyor bu da özellikle veri açıklanabilirliği varyans değerini açıklamaktadır. Grafiğe ayrıca kırmızı bir çizgi ekledim bu çizgi modelin birebir doğru tahmin yaptığı ideal durumu temsil ediyor. Noktaların bu çizgiye yakın olması modelimin gerçeğe ne kadar yaklaştığını hızlı bir şekilde görmemi sağlıyor. Sonrasında modelin hangi özelliklere daha çok önem verdiğini öğrenmek için Random Forest’ın feature_importances_ değerlerini kullandım. Pipeline içindeki Random Forest modelini çıkartıp tüm özelliklerin önem skorlarını bir tabloya dönüştürdüm ve en önemliden en aza doğru sıraladım butabloyu oluşturmaktaki amacım modelimin nemi tahmin ederken hangi değişkenleri daha etkili bulduğunu anlamaktı bu durum daha sonrasında bu kodu veya veri setini kullanacak programcılar için hangi özelliklere ekstra odaklanması gerektiğini gösterir ve belirler örneğin model “dew” veya “tempmin” özelliklerine daha fazla önem veriyorsa bu nem ile bu değişkenler arasında güçlü bir ilişki olduğu anlamına geliyor. Son olarak bu tabloyu bar grafik olarak çizdim çünkü görsel bir grafik sayesinde hangi özelliğin daha önemli olduğunu çok daha net ve anlaşılır bir şekilde görebiliyorum. Bu adımların hepsi benim için önemli çünkü hem modelin ne kadar iyi tahmin yaptığını görüyorum hem de özelliklerin önem sırasını belirleyip modelin nasıl karar verdiğini daha iyi çözmüş oluyorum. Bu sayede hem performansı hem de modelin çalışma şeklini çok daha rahat değerlendirebiliyorum.
 
 *GERÇEK VS TAHMİN*
 
@@ -113,7 +113,7 @@ Yazdığım kod satırları ve açıklamalarım yukarıdakiler gibidir yazdığ�
 
 ## MODEL SEÇİMİ
 
-Kullandığım veri setimde regresyon modeli seçmek için farklı modeller denedim ve bu modelelr arasından en iyi seçebilmek için de testler uyguladım bu testler modelin veri ile ne kadar uyuştuğunu ne kadar iyi tahminler yaptığını iyi tahmin olup olmadığını da grafikler çizerek ölçmeye çalıştım kullandığım testyöntemleri ilk olarak mae ve r^2 dir bu ölçümler bir modelin ne kadar hata yapıtğını ve veri ile uyumluluğunu ölçen genelgeçer kuramlardır ve devamında da her bir regresyn modeli için ayrı ayrı tahmin vs gerçek grafikleri çizdirdim bu grafikte olması gereken değerlerve modelin tahmin ettiği değerlerin birbirleri ile uyuşup uyumadığını ölçtüm.
+Kullandığım veri setimde regresyon modeli seçmek için farklı modeller denedim ve bu modeller arasından en iyiyi seçebilmek için de testler uyguladım bu testler modelin veri ile ne kadar uyuştuğunu ne kadar iyi tahminler yaptığını iyi tahmin olup olmadığını da grafikler çizerek ölçmeye çalıştım kullandığım test yöntemleri ilk olarak mae ve r^2 dir bu ölçümler bir modelin ne kadar hata yapıtğını ve veri ile uyumluluğunu ölçen genelgeçer kuramlardır ve devamında da her bir regresyon modeli için ayrı ayrı tahmin vs gerçek grafikleri çizdirdim bu grafikte olması gereken değerler ve modelin tahmin ettiği değerlerin birbirleri ile uyuşup uyuşmadığını ölçtüm.
 
 
 
@@ -126,7 +126,7 @@ Kullandığım veri setimde regresyon modeli seçmek için farklı modeller dene
 
                         
 
-Linear regresyonu projeme model olarak hangi kod satılarını kullanarak eklediğimi yukarıda görebilirsiniz.Öncelikle yine bir pipeline yapısı oluşturdum bana bu yapı aynı anda iki işi yapabilmemi sağlıyor preprocessing yani veri ön işleme olarak bildiğimiz eksik değerleri ortalama ile dolduruyor daha sonra ise modeli oluşturma aşamasına geçiyor. daha sonrasında da sırasıyla oluşturduğum modelin ismini kullanarak predict fonksiyonunu çağırdımve modelimin tahmin yapmasını sağladım ardından test için gerekli mae ve r^2 ifadelerini linear modeli için hesaplatıp yazdırdım bu değerleri devamında da asıl tablo kısmı olan kısma geçtim ve bir dataframe yapısı oluşturarak verideki gerçek y değerleri ve modelimin tahmin ettiği değeri bir tabloya yerleştirdim ve bu tabloyu ekranda gösterdim
+Linear regresyonu projeme model olarak hangi kod satılarını kullanarak eklediğimi yukarıda görebilirsiniz.Öncelikle yine bir pipeline yapısı oluşturdum bana bu yapı aynı anda iki işi bir sıraya alabilmemi bu işlerin sıra sıra bir boru hattı gibi yapılmasını sağlıyor preprocessing yani veri ön işleme olarak bildiğimiz eksik değerleri ortalama ile dolduruyor daha sonra ise modeli oluşturma aşamasına geçiyor. daha sonrasında da sırasıyla oluşturduğum modelin ismini kullanarak predict fonksiyonunu çağırdım ve modelimin tahmin yapmasını sağladım ardından test için gerekli mae ve r^2 ifadelerini linear modeli için hesaplatıp yazdırdım bu değerleri devamında da asıl tablo kısmı olan kısma geçtim ve bir dataframe yapısı oluşturarak verideki gerçek y değerleri ve modelimin tahmin ettiği değeri bir tabloya yerleştirdim ve bu tabloyu ekranda gösterdim
 
 
 
@@ -141,7 +141,7 @@ Bu model bilindiği üzere genellikle doğrusal ilişkileri ele alan bir modeldi
 
 ![linearreg1](regressiontestimages/image-14.jpg)
 
-***MAE: 0.94*** bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindekş metorolojik gibi karışık verilerde ise bu gibi hatalar linear model için beklenilen türde hatalar olabilir çünkü veri setim doğrusal değil ve bu hata oranı da bu  model için beklenebilirdi.
+***MAE: 0.94*** bu sonuç bu modelin gerçek değerden ortalama 0.94 kadar saptığını gösteriyor kullandığım veri setindeki metorolojik gibi karışık verilerde ise bu gibi hatalar linear model için beklenilen türde hatalar olabilir çünkü veri setim doğrusal değil ve bu hata oranı da bu  model için beklenebilirdi.
 
 
 ***R²: 0.976*** bu değer ise varyans değeri olarak da biliniyor ve veri değişiminin açklanabilirliğini gösteriyor bu sonuca bakıldığında anlıyoruz ki bu veri modeli verinin yaklaşık %97 sini açıklayabiliyor ve bu da bir regresyon modeli için oldukça iyi bir değerdir. 
@@ -155,7 +155,7 @@ Bir diğer denediğim model ise çoklu ver için uygun olan polynomial regresyon
 
 ![polykod](regressiontestimages/image-16.jpg)
 
-yYukadıdaki kod satırları ile bu regresyon modelini projeme dahil edip hesaplama yaptım bu regresyon modelinde lineardan farklı olarak ilk başta bir derece belirlemem gerekti bu derece oluşturulacak fonkaiyonumun derecesidir. Derecesini 2 seçmemin nedeni ise makine öğrenmesinde bu tarz veri setleri için gnellikle 2 seçiliyor olmasıdır hesaplaması hızlı ve aşırı öğrenmesi düşüktür. Devamında ise yine bir pipeline yapısı oluşturdum bu pipeline yapısı ilk eksik verileri ortalama ile doldurdu devamında ise erideki her özelliği 2. dereceden polinom haline getirdi son olarak  da yine bir linear regresyon yapısı kullandım çünkü polinom regresyon işin temelinde bir genişletilmiş bir linear fonksiyondur. Modeli eğitip, test ölçütlerini de hesaplattıktan sonra linear regresyonda yaptığım gibi dataframe yapısı ile bir tablo oluşturup ekranda gösterdim.
+Yukadıdaki kod satırları ile bu regresyon modelini projeme dahil edip hesaplama yaptım bu regresyon modelinde lineardan farklı olarak ilk başta bir derece belirlemem gerekti bu derece oluşturulacak fonkaiyonumun derecesidir. Derecesini 2 seçmemin nedeni ise makine öğrenmesinde bu tarz veri setleri için genellikle 2 seçiliyor olmasıdır hesaplaması hızlı ve aşırı öğrenmesi düşüktür. Devamında ise yine bir pipeline yapısı oluşturdum bu pipeline yapısı ilk eksik verileri ortalama ile doldurdu devamında ise verideki her özelliği 2. dereceden polinom haline getirdi son olarak  da yine bir linear regresyon yapısı kullandım çünkü polinom regresyon işin temelinde bir genişletilmiş bir linear fonksiyondur. Modeli eğitip, test ölçütlerini de hesaplattıktan sonra linear regresyonda yaptığım gibi dataframe yapısı ile bir tablo oluşturup ekranda gösterdim.
 
 
 
@@ -165,7 +165,7 @@ yYukadıdaki kod satırları ile bu regresyon modelini projeme dahil edip hesapl
 ![polyreg1](regressiontestimages/image-18.jpg)
 
 
-Test sonuçlarına baktığımızda ise şunu görüyoruz ki Bu sonuçlar, polinomsal regresyonda 2. derecenin veriyle neredeyse mükemmel uyum sağladığını gösteriyor: 
+Test sonuçlarına baktığımızda ise şunu görüyoruz ki Bu sonuçlar, polinomsal regresyonda 2. derecenin veriyle neredeyse mükemmel uyum sağladığını gösteriyor.
 
 ***MAE***  0.40 gibi çok küçük bir hata vermiştir ve bu bu veri seti için oldukça düşük bir orandır devamında ise  ***R²*** değerinin 0.995 olması modelin verideki varyansın %99.5’ini açıkladığını gösterir yani veri değerlerine uygunluk açısından oldukça yüksektir. ***Gerçek–tahmin tablosu*** da iki değerin her satırda birbirine çok yakın olduğunu kanıtlıyor. Grafikte noktaların kırmızı çizgiye olan yoğunluğuna baktığımızda gerçek ve tahminlerin ölçülen varyansa uygun olarak oldukça benzer yerlerde olduklarını görüyoruz. Bu modeli seçmememin nedeni ise veri setime eklenebilecek yeni özellik olduğunda bu regresyon modelinin hata verebileceğini düşünmemdir çünkü araştırmalarıma göre genel yapısı gereği 12den fazla özellik olduğunda düşük varyanslar ile karşılaşabiliriz bu da tahmin ve gerçek uyumunu bozabilir.
 
@@ -177,7 +177,7 @@ Test sonuçlarına baktığımızda ise şunu görüyoruz ki Bu sonuçlar, polin
 
 ![svrkod](regressiontestimages/image-19.jpg)
 
-Denediğim bir diğer regresyon modeli olan svryi denemek için kodumda yaptığım değiişikliklerden bahsedecek olursam linear ve polinom regresyondan farklı olarak kullandığım yöntemlerden ilki svr mesafe tabanlı bir regreyon olduğu için stansardscaler kullanmaktır bu yöntem tüm özellikleri standarlaştırır ve ölçeklendirir eğer bu yapılmazsa özellikler farklı ölçeklerde olur e bu da modeli bozar. Devamında da yine aynı pipeline yapısı içerisinde svr içerisinde kernel ,c ve epsilon değerlerine yer verdim . Kernel eğrisel ilişkileri yakalar C daha sıkı yani verilere daha hassas modeli ayarlar ve  epsilon ise tolerans bölgesini belirler ceza almama bölgesini belirler.Devamında ise yine denediğim diğer regresyondakiler gibi mae ve r^2 hesaplaması yapılır ve ekrana tablo yansıtılır.
+Denediğim bir diğer regresyon modeli olan svryi denemek için kodumda yaptığım değiişikliklerden bahsedecek olursam linear ve polinom regresyondan farklı olarak kullandığım yöntemlerden ilki svr mesafe tabanlı bir regreyon olduğu için stansardscaler kullanmaktır bu yöntem tüm özellikleri standarlaştırır ve ölçeklendirir eğer bu yapılmazsa özellikler farklı ölçeklerde olur ve bu da modeli bozar. Devamında da yine aynı pipeline yapısı içerisinde svr içerisinde kernel ,c ve epsilon değerlerine yer verdim . Kernel eğrisel ilişkileri yakalar C daha sıkı yani verilere daha hassas modeli ayarlar ve  epsilon ise tolerans bölgesini belirler ceza almama bölgesini belirler.Devamında ise yine denediğim diğer regresyondakiler gibi mae ve r^2 hesaplaması yapılır ve ekrana tablo yansıttım.
 
 
 
@@ -196,6 +196,9 @@ Svr regresyonun test sonuçlarını ve tabloyu incelediğimde ise polinom regres
 
 ![deckod](regressiontestimages/image-22.jpg)
 
+Bu modeli kodumu yukarıdaki kod satırlarını kullanarak entregre ettim ilk önce pipeline yapısı blr diğer modellerde yaptığım gibi sıralı olarak preprocessing ve daha sonrasında ise tree ismi ile decisiontreeregressor  oluşturup gerekli özellikleeri tanımladım max_depth  min_samples_split ve random_state .Max_depth ağacın büyümesini sınırlar çünkü fazla derinlik aşırı öğrenmeye sebep olur.Random_state ise her çalışmanın aynı sonuç vermesini sağlar. Modelimi oluşturduktan sonra ise yine test değerlerimi hesaplatıp tabloyumu çizdirdim.
+
+
 
 ![decreg](regressiontestimages/image-23.jpg)
 
@@ -204,7 +207,8 @@ Svr regresyonun test sonuçlarını ve tabloyu incelediğimde ise polinom regres
 
 
 
- yapısal olarak kolay anlaşılabilir ve hızlı çalışan bir algoritmadır fakat tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir bu da demek oluyor ki veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için tıpkı benim kullandığım veri seti gibi veri setleri için güvenilir bir seçenek değildir.
+
+Test sonuçlarını incelediğimde şu sonuca vardım ki bu model bu veri seti için seçilebilecek en kötü performanslı model çünkü ***mae*** değeri 1 in üzerinde çıktı bu yüksek miktarda hata oranı demektir ve teorik bilgi olarak da bu regresyon modeli ile ilgili olarak bilindiği üzere tek bir karar ağacına dayalı olması onu oldukça kararsız kılar. Veri içinde küçük değişiklikler yapıldığında bile modelin tamamen farklı karar yapıları üretmesi mümkündür. Ayrıca tek ağaç modelleri genellikle yüksek varyansa sahiptir bu da demek oluyor ki veriyi aşırı derecede ezberleyebilir ve genelleme performansında büyük düşüşler görülür. Bu sebeplerle Decision Tree, büyük ve gürültülü meteorolojik veri setleri için tıpkı benim kullandığım veri seti gibi veri setleri için güvenilir bir seçenek değildir.
 
 
 **Random Forest**
@@ -216,7 +220,7 @@ Diğer bir adıyla da rassal ormanları olarak bildiğimiz bu model hem veri set
 MAE: 0.8641747525457808
 R²: 0.9781892749350534
 
-Random forest modeli sonrası performans ölçütlerimin çıktısı yukarıdaki gibi olmuştur veri açıklanabilirliği olarak bildiğim veri uyumu varyans en yüksek random forest modelimde çıkmıştır. 1 yani mükemmel tahmine yakınlığı oldukça fazladır ve genel olarak random forest(rassal ormanları) yapısı gereği çoklu ağaç sistemi kullanması onun kararsızlığını azaltmasından bildiğimiz gürültülü yani eksik ve düzgün olmayan verilere dayanıklılığı ile bildiğimiz için hem düşüncede hem de pratikte en iyi yol olmuştur.
+Random forest modeli sonrası performans ölçütlerimin çıktısı yukarıdaki gibi olmuştur veri açıklanabilirliği olarak bildiğim veri uyumu varyans en yüksek random forest modelimde çıkmasa dahi en hızlı ölçüm sonuçlarını bu modelde aldım  1 yani mükemmel tahmine yakınlığı oldukça fazladır ve genel olarak random forest(rassal ormanları) yapısı gereği çoklu ağaç sistemi kullanması onun kararsızlığını azaltmasından bildiğimiz gürültülü yani eksik ve düzgün olmayan verilere dayanıklılığı ile bildiğimiz için hem düşüncede hem de pratikte en iyi yol olmuştur.
 
 Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan farklı olarak ****Random Forest**** açık ara en dengeli ve başarılı model olmuştur.
 
@@ -225,9 +229,10 @@ Bu özellikler nedeniyle üstte kullanılan ve denenen diğer algoritmalardan fa
 
 ## SONUÇ
 
-- 50 yıllık hava durumu verisi işlendi  
-- Nem tahmini için anlamlı özellikler çıkarıldı  
-- Farklı modeller karşılaştırıldı  
+- 50 yıllık hava durumu verisi işlendi
+- Kod yazıldı ve bu kod ile tahminler yapıldı(Pipeline şeklinde çalışan bir tahmin sistemi kuruldu)
+- Nem tahmini için anlamlı özellikler çıkarıldı(özellik-önem tablosu)  
+- Farklı modeller karşılaştırıldı  (test modelleri kullnıldı,gerçek vs tahmin tablosu)
 - Random Forest en yüksek başarıyı gösterdi  
  
 
